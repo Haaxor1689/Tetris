@@ -1,10 +1,11 @@
 #include "Tetromino.hpp"
 
 Tetromino::Tetromino(Grid& grid)
-						  : grid(grid),
-						    pivot({grid.width / 2, 0}),
-						    state(tetroState::Disabled),
-						    alarm(std::chrono::high_resolution_clock::now()){
+	: grid(grid),
+	pivot({ grid.width / 2, 0 }),
+	state(tetroState::Disabled),
+	worth(100),
+	alarm(std::chrono::high_resolution_clock::now()){
 	setType();
 }
 

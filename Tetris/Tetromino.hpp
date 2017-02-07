@@ -46,6 +46,7 @@ private:
 	Position ground;
 	tetroType type;
 	tetroState state;
+	int worth;
 
 	std::array<Position, 4> blocks;
 	std::chrono::high_resolution_clock::time_point alarm;

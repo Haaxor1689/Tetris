@@ -17,6 +17,11 @@ struct Grid {
 			i.fill(gridBlock::Empty);
 	}
 
+	void reset() {
+		for (auto& i : matrix)
+			i.fill(gridBlock::Empty);
+	}
+
 	const Position corner;
 	const int tileSize;
 	const int width;

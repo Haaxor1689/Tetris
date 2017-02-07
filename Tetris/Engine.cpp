@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 Engine::Engine() :
 		state(gameState::intro),
-		grid({350, 6}, 26),
+		grid({360, 12}, 24),
 		score(0),
 		tetroFalling(grid),
 		tetroWaiting(grid),
@@ -58,8 +58,14 @@ void Engine::input(const Event& event) {
 			switch(event.key()) {
 			case SDLK_n:
 				state = gameState::play;
+				tetroFalling.setType();
+				grid.reset();
+				tetroFalling.resetPosition();
 				tetroFalling.setGround();
 				tetroWaiting.setType();
+				break;
+			case SDLK_c:
+				state = gameState::play;
 				break;
 			case SDLK_ESCAPE:
 				state = gameState::exit;
@@ -130,7 +136,7 @@ void Engine::draw() {
 	case gameState::menu:
 		text("Tetris", "Title", 480, 120);
 		text("New Game (N)", "MenuItem", 480, 300);
-		text("Controlls (C)", "MenuItem", 480, 340);
+		text("Continue (C)", "MenuItem", 480, 340);
 		text("Quit (Esc)", "MenuItem", 480, 380);
 		break;
 	case gameState::play:
