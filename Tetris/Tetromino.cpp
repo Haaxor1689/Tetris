@@ -42,7 +42,7 @@ void Tetromino::step() {
 	using namespace std::chrono;
 
 	if (state == tetroState::Falling)
-		if (duration_cast<duration<double> >(high_resolution_clock::now() - alarm).count() > 0.5) {
+		if (duration_cast<duration<float> >(high_resolution_clock::now() - alarm).count() > 0.5f) {
 			if (nonCollision({0, 1})) {
 				pivot.y++;
 			} else {
@@ -99,16 +99,16 @@ void Tetromino::draw(Renderer& renderer, std::map<std::string, Sprite>& textures
 
 		textures.find(texture)->second.draw(renderer,
 		                                    grid.corner.x + (ground.x + blocks[0].x) * grid.tileSize,
-		                                    grid.corner.y + (ground.y + blocks[0].y) * grid.tileSize);
+		                                    grid.corner.y + (ground.y + blocks[0].y) * grid.tileSize, 100);
 		textures.find(texture)->second.draw(renderer,
 		                                    grid.corner.x + (ground.x + blocks[1].x) * grid.tileSize,
-		                                    grid.corner.y + (ground.y + blocks[1].y) * grid.tileSize);
+		                                    grid.corner.y + (ground.y + blocks[1].y) * grid.tileSize, 100);
 		textures.find(texture)->second.draw(renderer,
 		                                    grid.corner.x + (ground.x + blocks[2].x) * grid.tileSize,
-		                                    grid.corner.y + (ground.y + blocks[2].y) * grid.tileSize);
+		                                    grid.corner.y + (ground.y + blocks[2].y) * grid.tileSize, 100);
 		textures.find(texture)->second.draw(renderer,
 		                                    grid.corner.x + (ground.x + blocks[3].x) * grid.tileSize,
-		                                    grid.corner.y + (ground.y + blocks[3].y) * grid.tileSize);
+		                                    grid.corner.y + (ground.y + blocks[3].y) * grid.tileSize, 100);
 		break;
 	case tetroState::Waiting:
 		textures.find(texture)->second.draw(renderer,

@@ -58,6 +58,8 @@ void Engine::input(const Event& event) {
 			switch(event.key()) {
 			case SDLK_n:
 				state = gameState::play;
+				tetroFalling.setGround();
+				tetroWaiting.setType();
 				break;
 			case SDLK_ESCAPE:
 				state = gameState::exit;

@@ -153,7 +153,7 @@
     <ClInclude Include="Event.hpp" />
     <ClInclude Include="Font.hpp" />
     <ClInclude Include="Grid.hpp" />
-    <ClInclude Include="ParticleEmitter.h" />
+    <ClInclude Include="ParticleEmitter.hpp" />
     <ClInclude Include="Position.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="Tetromino.hpp" />

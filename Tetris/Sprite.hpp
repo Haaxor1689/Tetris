@@ -32,12 +32,20 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	void draw(Renderer& renderer, int x, int y) {
+	void draw(Renderer& renderer, int x, int y, int alpha = 255) {
 		rectangle.x = x;
 		rectangle.y = y;
 
+		if (alpha != 255)
+			if (SDL_SetTextureAlphaMod(texture, alpha))
+				throw std::runtime_error(SDL_GetError());
+
 		if (SDL_RenderCopy(renderer.renderer, texture, nullptr, &rectangle))
 			throw std::runtime_error(SDL_GetError());
+
+		if (alpha != 255)
+			if (SDL_SetTextureAlphaMod(texture, 255))
+				throw std::runtime_error(SDL_GetError());
 	}
 
 private:
