@@ -1,5 +1,5 @@
-#ifndef TETRIS_TEXTURE_HPP
-#define TETRIS_TEXTURE_HPP
+#ifndef TETRIS_SPRITE_HPP
+#define TETRIS_SPRITE_HPP
 
 #include <iostream>
 #include <SDL.h>
@@ -7,9 +7,9 @@
 #include <string>
 #include "Renderer.hpp"
 
-class Texture {
+class Sprite {
 public:
-	Texture(std::string path, Renderer& renderer) {
+	Sprite(std::string path, Renderer& renderer) {
 		SDL_Surface* loadedImage = IMG_Load(path.c_str());
 		if (!loadedImage)
 			throw std::runtime_error(SDL_GetError());
@@ -22,13 +22,13 @@ public:
 		SDL_QueryTexture(texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 	}
 
-	Texture(Texture&& other) noexcept {
+	Sprite(Sprite&& other) noexcept {
 		rectangle = other.rectangle;
 		texture = other.texture;
 		other.texture = nullptr;
 	}
 
-	~Texture() {
+	~Sprite() {
 		SDL_DestroyTexture(texture);
 	}
 
@@ -45,4 +45,4 @@ private:
 	SDL_Texture* texture;
 };
 
-#endif //TETRIS_TEXTURE_HPP
+#endif //TETRIS_SPRITE_HPP

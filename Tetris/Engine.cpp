@@ -6,16 +6,16 @@ Engine::Engine() :
 		tetroFalling(grid),
 		tetroWaiting(grid),
 		alarm(std::chrono::high_resolution_clock::now()) {
-	// Texture loading
-	textures.insert(std::make_pair("Background", Texture("resources/Background.png", renderer)));
-	textures.insert(std::make_pair("EmptyBlock", Texture("resources/EmptyBlock.png", renderer)));
-	textures.insert(std::make_pair("BlueBlock", Texture("resources/BlueBlock.png", renderer)));
-	textures.insert(std::make_pair("GreenBlock", Texture("resources/GreenBlock.png", renderer)));
-	textures.insert(std::make_pair("OrangeBlock", Texture("resources/OrangeBlock.png", renderer)));
-	textures.insert(std::make_pair("PurpleBlock", Texture("resources/PurpleBlock.png", renderer)));
-	textures.insert(std::make_pair("RedBlock", Texture("resources/RedBlock.png", renderer)));
-	textures.insert(std::make_pair("TealBlock", Texture("resources/TealBlock.png", renderer)));
-	textures.insert(std::make_pair("YellowBlock", Texture("resources/YellowBlock.png", renderer)));
+	// Sprite loading
+	textures.insert(std::make_pair("Background", Sprite("resources/Background.png", renderer)));
+	textures.insert(std::make_pair("EmptyBlock", Sprite("resources/EmptyBlock.png", renderer)));
+	textures.insert(std::make_pair("BlueBlock", Sprite("resources/BlueBlock.png", renderer)));
+	textures.insert(std::make_pair("GreenBlock", Sprite("resources/GreenBlock.png", renderer)));
+	textures.insert(std::make_pair("OrangeBlock", Sprite("resources/OrangeBlock.png", renderer)));
+	textures.insert(std::make_pair("PurpleBlock", Sprite("resources/PurpleBlock.png", renderer)));
+	textures.insert(std::make_pair("RedBlock", Sprite("resources/RedBlock.png", renderer)));
+	textures.insert(std::make_pair("TealBlock", Sprite("resources/TealBlock.png", renderer)));
+	textures.insert(std::make_pair("YellowBlock", Sprite("resources/YellowBlock.png", renderer)));
 
 	// Font loading
 	fonts.insert(std::make_pair("Title", Font("resources/Bitmgothic.ttf", 60)));

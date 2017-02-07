@@ -6,7 +6,7 @@
 #include "Event.hpp"
 #include "Grid.hpp"
 #include "Position.hpp"
-#include "Texture.hpp"
+#include "Sprite.hpp"
 
 enum class tetroType {
 	None, I, O, T, J, L, S, Z
@@ -22,7 +22,7 @@ public:
 
 	void input(const Event& event);
 	void step();
-	void draw(Renderer& renderer, std::map<std::string, Texture>& textures);
+	void draw(Renderer& renderer, std::map<std::string, Sprite>& textures);
 
 	void setState(tetroState newState);
 	tetroState getState() const;

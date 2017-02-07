@@ -10,7 +10,7 @@
 #include "Font.hpp"
 #include "Grid.hpp"
 #include "Tetromino.hpp"
-#include "Texture.hpp"
+#include "Sprite.hpp"
 
 enum class gameState {
 	exit, intro, menu, play, pause
@@ -41,7 +41,7 @@ private:
 
 	Event event;
 	Renderer renderer;
-	std::map<std::string, Texture> textures;
+	std::map<std::string, Sprite> textures;
 	std::map<std::string, Font> fonts;
 
 	unsigned score;

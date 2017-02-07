@@ -157,7 +157,7 @@
     <ClInclude Include="Position.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="Tetromino.hpp" />
-    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="Sprite.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />

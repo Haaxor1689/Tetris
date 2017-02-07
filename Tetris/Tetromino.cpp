@@ -81,7 +81,7 @@ void Tetromino::step() {
 		}
 }
 
-void Tetromino::draw(Renderer& renderer, std::map<std::string, Texture>& textures) {
+void Tetromino::draw(Renderer& renderer, std::map<std::string, Sprite>& textures) {
 	switch(state){
 	case tetroState::Falling:
 		textures.find(texture)->second.draw(renderer,

@@ -36,10 +36,10 @@
     <ClInclude Include="Tetromino.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.hpp">
+    <ClInclude Include="ParticleEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEmitter.h">
+    <ClInclude Include="Sprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
