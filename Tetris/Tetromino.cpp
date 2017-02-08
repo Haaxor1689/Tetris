@@ -5,7 +5,7 @@ Tetromino::Tetromino(Grid& grid)
 	pivot({ grid.width / 2, 0 }),
 	state(tetroState::Disabled),
 	worth(100),
-	alarm(std::chrono::high_resolution_clock::now()){
+	alarm(std::chrono::high_resolution_clock::now()) {
 	setType();
 }
 

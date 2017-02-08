@@ -105,6 +105,7 @@ void Engine::step() {
 					rowDone = false;
 			if (rowDone) {
 				score +=  100 * (1.5 * multiplier);
+				grid.done.push_back(grid.matrix[j]);
 				grid.matrix[j].fill(gridBlock::Empty);
 				for (int i = j; i > 0; --i)
 					std::swap(grid.matrix[i], grid.matrix[i - 1]);
@@ -173,6 +174,38 @@ void Engine::draw() {
 					break;
 				}
 				sprite(texture, grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize);
+			}
+
+		for (int j = 0; j < grid.done.size(); ++j)
+			for (int i = 0; i < grid.done[j].size(); ++i) {
+				std::string texture;
+				switch (grid.done[j][i]) {
+				case gridBlock::Empty:
+					texture = "EmptyBlock";
+					break;
+				case gridBlock::Blue:
+					texture = "BlueBlock";
+					break;
+				case gridBlock::Green:
+					texture = "GreenBlock";
+					break;
+				case gridBlock::Orange:
+					texture = "OrangeBlock";
+					break;
+				case gridBlock::Purple:
+					texture = "PurpleBlock";
+					break;
+				case gridBlock::Red:
+					texture = "RedBlock";
+					break;
+				case gridBlock::Teal:
+					texture = "TealBlock";
+					break;
+				case gridBlock::Yellow:
+					texture = "YellowBlock";
+					break;
+				}
+				sprite(texture, grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + j * grid.tileSize);
 			}
 
 

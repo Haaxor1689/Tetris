@@ -2,6 +2,7 @@
 #define TETRIS_GRID_HPP
 
 #include <array>
+#include <vector>
 #include "Position.hpp"
 
 enum class gridBlock {
@@ -27,6 +28,7 @@ struct Grid {
 	const int width;
 	const int height;
 	std::array<std::array<gridBlock, 10>, 20> matrix;
+	std::vector<std::array<gridBlock, 10> > done;
 };
 
 #endif //TETRIS_GRID_HPP
