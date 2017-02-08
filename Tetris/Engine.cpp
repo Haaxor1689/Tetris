@@ -3,6 +3,7 @@ Engine::Engine() :
 		state(gameState::intro),
 		grid({360, 12}, 24),
 		score(0),
+		lastScored(0),
 		tetroFalling(grid),
 		tetroWaiting(grid),
 		alarm(std::chrono::high_resolution_clock::now()) {
@@ -97,22 +98,27 @@ void Engine::step() {
 		tetroFalling.step();
 		tetroWaiting.step();
 
-		multiplier = 1;
-		for (int j = 0; j < grid.matrix.size(); ++j) {
-			rowDone = true;
-			for (auto& i : grid.matrix[j])
-				if (i == gridBlock::Empty)
-					rowDone = false;
-			if (rowDone) {
-				score +=  100 * (1.5 * multiplier);
-				grid.done.push_back(grid.matrix[j]);
-				grid.matrix[j].fill(gridBlock::Empty);
-				for (int i = j; i > 0; --i)
-					std::swap(grid.matrix[i], grid.matrix[i - 1]);
-			}
-		}
-
 		if (tetroFalling.getState() == tetroState::Disabled) {
+			lastScored = 0;
+			multiplier = 1;
+			for (int j = grid.matrix.size() - 1; j >= 0; --j) {
+				rowDone = true;
+				for (auto& i : grid.matrix[j])
+					if (i == gridBlock::Empty)
+						rowDone = false;
+
+				if (rowDone) {
+					lastScored += 100 * (0.5 + multiplier);
+					grid.done.push_front(grid.matrix[j]);
+					grid.matrix[j].fill(gridBlock::Empty);
+					for (int i = j; i > 0; --i)
+						std::swap(grid.matrix[i], grid.matrix[i - 1]);
+					++multiplier;
+					++j;
+				}
+			}
+			score += lastScored;
+
 			tetroFalling.setState(tetroState::Falling);
 			tetroFalling.setType(tetroWaiting.getType());
 			tetroFalling.resetPosition();
@@ -143,6 +149,10 @@ void Engine::draw() {
 	case gameState::play:
 		oss << "Score: " << score << " points";
 		text(oss.str(), "MenuItem", 140, 20, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
+
+		oss.str(std::string());
+		oss << "Last Scored: " << lastScored << " points";
+		text(oss.str(), "MenuItem", 140, 60, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
 
 		for (int j = 0; j < grid.matrix.size(); ++j)
 			for (int i = 0; i < grid.matrix[j].size(); ++i) {

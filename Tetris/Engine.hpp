@@ -45,6 +45,7 @@ private:
 	std::map<std::string, Font> fonts;
 
 	unsigned score;
+	unsigned lastScored;
 	unsigned multiplier;
 
 	Grid grid;
