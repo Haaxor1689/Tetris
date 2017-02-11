@@ -10,7 +10,7 @@
 /* NOT IMPLEMENTED */
 
 struct Particle {
-	Particle(int x, int y) : alive(true), 
+	Particle(int x, int y) : alive(true),
 									 pivot({ x, y }),
 									 speed(1.0f),
 									 alpha(255),

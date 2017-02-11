@@ -41,11 +41,11 @@ public:
 	}
 
 	void addFont(std::string name, std::string path, int size) {
-		fonts.insert(std::make_pair(name, Font(path, size)));
+		fonts.insert(make_pair(name, Font(path, size)));
 	}
 
 	void addSprite(std::string name, std::string path) {
-		sprites.insert(std::make_pair(name, Sprite(path, renderer)));
+		sprites.insert(make_pair(name, Sprite(path, renderer)));
 	}
 
 	SDL_Renderer* getRenderer() const {

@@ -8,7 +8,7 @@
 
 class Tetromino {
 public:
-	Tetromino(Grid& grid);
+	explicit Tetromino(Grid& grid);
 
 	void input(const Event& event);
 	void step();

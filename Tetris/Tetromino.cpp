@@ -62,7 +62,7 @@ void Tetromino::step() {
 }
 
 void Tetromino::draw(Renderer& renderer) {
-	std::string texture = toString(type);
+	auto texture = toString(type);
 	switch (state) {
 	case tetroState::Falling:
 		for (const auto& i : blocks) {
@@ -155,7 +155,7 @@ void Tetromino::resetPosition() {
 }
 
 bool Tetromino::nonCollision(Position newPos) const {
-	bool empty = true;
+	auto empty = true;
 	for (const auto& i : blocks)
 		if (pivot.x + i.x + newPos.x < 0 ||
 			pivot.y + i.y + newPos.y < 0 ||
@@ -199,7 +199,7 @@ bool Tetromino::rotateRight() {
 }
 
 void Tetromino::setGround() {
-	int i = 0;
+	auto i = 0;
 	while (nonCollision({ 0, i + 1 })) {
 		i++;
 	}
