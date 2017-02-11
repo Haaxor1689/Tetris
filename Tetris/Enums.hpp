@@ -2,7 +2,7 @@
 #include <string>
 
 enum class gameState {
-	exit, intro, menu, play, pause
+	exit, intro, menu, play, gameover
 };
 
 enum class gridBlock {

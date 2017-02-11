@@ -1,13 +1,6 @@
 #include "Engine.hpp"
 
-Engine::Engine() :
-		state(gameState::intro),
-		grid({360, 12}, 24),
-		score(0),
-		lastScored(0),
-		tetroFalling(grid),
-		tetroWaiting(grid),
-		alarm(std::chrono::high_resolution_clock::now()) {
+Engine::Engine() : state(gameState::intro), grid({360, 12}, 24), score(0), lastScored(0), tetroFalling(grid), tetroWaiting(grid), alarm(std::chrono::high_resolution_clock::now()) {
 	// Sprite loading
 	renderer.addSprite("Background", "resources/Background.png");
 	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
@@ -87,6 +80,11 @@ void Engine::input(const Event& event) {
 			}
 		}
 		break;
+	case gameState::gameover:
+		if (event.type() == SDL_KEYDOWN) {
+			state = gameState::menu;
+			score = 0;
+		}
 	default:
 		break;
 	}
@@ -158,22 +156,17 @@ void Engine::draw() {
 		renderer.drawText(oss.str(), "MenuItem", { 140, 60 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
 
 		for (int j = 0; j < grid.matrix.size(); ++j)
-			for (int i = 0; i < grid.matrix[j].size(); ++i) {
-				std::string texture;
-				texture = toString(grid.matrix[j][i]);
-				renderer.drawSprite(texture, { grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
-			}
+			for (int i = 0; i < grid.matrix[j].size(); ++i)
+				renderer.drawSprite(toString(grid.matrix[j][i]), { grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
 
 		for (int j = 0; j < grid.done.size(); ++j)
-			for (int i = 0; i < grid.done[j].size(); ++i) {
-				std::string texture;
-				texture = toString(grid.done[j][i]);
-				renderer.drawSprite(texture, { grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
-			}
+			for (int i = 0; i < grid.done[j].size(); ++i)
+				renderer.drawSprite(toString(grid.done[j][i]), { grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
 
 		tetroFalling.draw(renderer);
 		tetroWaiting.draw(renderer);
 		break;
+
 	default:
 		renderer.drawText("Placeholder", "Title", { 480, 300 });
 		break;
