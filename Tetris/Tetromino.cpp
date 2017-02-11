@@ -5,6 +5,7 @@ Tetromino::Tetromino(Grid& grid)
 	  pivot({ grid.width / 2, 0 }),
 	  state(tetroState::Disabled),
 	  worth(100),
+	  stepSpeed(0.5f),
 	  alarm(std::chrono::high_resolution_clock::now()) {
 	setType();
 }
@@ -29,7 +30,12 @@ void Tetromino::input(const Event& event) {
 				pivot.y++;
 			break;
 		case SDLK_UP:
+		case SDLK_c:
 			if (rotateRight())
+				setGround();
+			break;
+		case SDLK_x:
+			if (rotateLeft())
 				setGround();
 			break;
 		case SDLK_SPACE:
@@ -45,7 +51,8 @@ void Tetromino::step() {
 	using namespace std::chrono;
 
 	if (state == tetroState::Falling)
-		if (duration_cast<duration<float>>(high_resolution_clock::now() - alarm).count() > 0.5f) {
+		if (duration_cast<duration<float>>(high_resolution_clock::now() - alarm).count() > stepSpeed) {
+			stepSpeed -= stepSpeed / 1000;
 			if (nonCollision({ 0, 1 })) {
 				worth -= 5;
 				pivot.y++;
@@ -91,7 +98,7 @@ tetroState Tetromino::getState() const {
 }
 
 void Tetromino::setType() {
-	srand(time(nullptr));
+	srand(static_cast<unsigned>(time(nullptr)));
 	setType(static_cast<tetroType>(rand() % 7 + 1));
 }
 
@@ -99,44 +106,28 @@ void Tetromino::setType(tetroType newType) {
 	type = newType;
 	switch (type) {
 	case tetroType::I:
-		blocks[1] = { -1, 0 };
-		blocks[2] = { 1, 0 };
-		blocks[3] = { 2, 0 };
+		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 0 }, { 2, 0 } } };
 		break;
 	case tetroType::O:
-		blocks[1] = { 1, 0 };
-		blocks[2] = { 0, 1 };
-		blocks[3] = { 1, 1 };
+		blocks = { { { 0, 0 },{ 1, 1 },{ 1, 0 },{ 0, 1 } } };
 		break;
 	case tetroType::T:
-		blocks[1] = { -1, 0 };
-		blocks[2] = { 1, 0 };
-		blocks[3] = { 0, 1 };
+		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 0, 1 } } };
 		break;
 	case tetroType::J:
-		blocks[1] = { -1, 0 };
-		blocks[2] = { 1, 0 };
-		blocks[3] = { 1, 1 };
+		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 1, 1 } } };
 		break;
 	case tetroType::L:
-		blocks[1] = { -1, 0 };
-		blocks[2] = { 1, 0 };
-		blocks[3] = { -1, 1 };
+		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ -1, 1 } } };
 		break;
 	case tetroType::S:
-		blocks[1] = { -1, 1 };
-		blocks[2] = { 0, 1 };
-		blocks[3] = { 1, 0 };
+		blocks = { { { 0, 0 },{ -1, 1 },{ 1, 0 },{ 0, 1 } } };
 		break;
 	case tetroType::Z:
-		blocks[1] = { -1, 0 };
-		blocks[2] = { 0, 1 };
-		blocks[3] = { 1, 1 };
+		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 1 },{ 0, 1 } } };
 		break;
 	case tetroType::None:
-		blocks[1] = { 0, 0 };
-		blocks[2] = { 0, 0 };
-		blocks[3] = { 0, 0 };
+		blocks = { { { 0, 0 },{ 0, 0 },{ 0, 0 },{ 0, 0 } } };
 	}
 }
 
@@ -144,14 +135,19 @@ tetroType Tetromino::getType() const {
 	return type;
 }
 
+void Tetromino::setStepSpeed(float speed) {
+	stepSpeed = speed;
+}
+
 int Tetromino::getWorth() const {
 	return worth;
 }
 
-void Tetromino::resetPosition() {
+bool Tetromino::resetPosition() {
 	pivot = { grid.width / 2, 0 };
 	worth = 100;
 	setGround();
+	return nonCollision({ 0, 0 });
 }
 
 bool Tetromino::nonCollision(Position newPos) const {

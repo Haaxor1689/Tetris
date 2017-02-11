@@ -21,8 +21,10 @@ public:
 	void setType(tetroType type);
 	tetroType getType() const;
 
+	void setStepSpeed(float speed);
+
 	int getWorth() const;
-	void resetPosition();
+	bool resetPosition();
 
 	bool nonCollision(Position pos) const;
 
@@ -38,6 +40,7 @@ private:
 	tetroType type;
 	tetroState state;
 	int worth;
+	float stepSpeed;
 
 	std::array<Position, 4> blocks;
 	std::chrono::high_resolution_clock::time_point alarm;

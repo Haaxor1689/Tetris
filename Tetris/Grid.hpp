@@ -17,6 +17,7 @@ struct Grid {
 	void reset() {
 		for (auto& i : matrix)
 			i.fill(gridBlock::Empty);
+		done.clear();
 	}
 
 	bool isEmpty(Position&& pos) const {
