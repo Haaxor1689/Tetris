@@ -1,5 +1,5 @@
 #include "Engine.hpp"
-#include  <sstream>
+#include <sstream>
 
 Engine::Engine() : state(gameState::intro),
 						 score(0),
@@ -187,12 +187,12 @@ void Engine::draw() {
 			--lastScored;
 		}
 
-		for (auto j = 0; j < grid.matrix.size(); ++j)
-			for (auto i = 0; i < grid.matrix[j].size(); ++i)
+		for (unsigned j = 0; j < grid.matrix.size(); ++j)
+			for (unsigned i = 0; i < grid.matrix[j].size(); ++i)
 				renderer.drawSprite(toString(grid.matrix[j][i]), { grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
 
-		for (auto j = 0; j < grid.done.size(); ++j)
-			for (auto i = 0; i < grid.done[j].size(); ++i)
+		for (unsigned j = 0; j < grid.done.size(); ++j)
+			for (unsigned i = 0; i < grid.done[j].size(); ++i)
 				renderer.drawSprite(toString(grid.done[j][i]), { grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + 480 - static_cast<int>(grid.done.size()) * grid.tileSize + j * grid.tileSize });
 
 		tetroFalling.draw(renderer);

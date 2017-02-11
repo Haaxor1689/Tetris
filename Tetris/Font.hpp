@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Enums.hpp"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdexcept>
-#include "Enums.hpp"
 
 class Font {
 public:

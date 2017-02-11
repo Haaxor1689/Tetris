@@ -1,10 +1,10 @@
 #pragma once
 
-#include <chrono>
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
 #include "Renderer.hpp"
+#include <chrono>
 
 class Tetromino {
 public:
@@ -18,7 +18,7 @@ public:
 	tetroState getState() const;
 
 	void setType();
-	void setType(tetroType type);
+	void setType(tetroType newType);
 	tetroType getType() const;
 
 	void setStepSpeed(float speed);
@@ -26,7 +26,7 @@ public:
 	int getWorth() const;
 	bool resetPosition();
 
-	bool nonCollision(Position pos) const;
+	bool nonCollision(Position newPos) const;
 
 	bool rotateLeft();
 	bool rotateRight();

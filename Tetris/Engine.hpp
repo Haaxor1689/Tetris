@@ -1,11 +1,11 @@
 #pragma once
 
-#include <chrono>
-#include "Renderer.hpp"
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
+#include "Renderer.hpp"
 #include "Tetromino.hpp"
+#include <chrono>
 
 class Engine {
 public:

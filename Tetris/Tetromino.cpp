@@ -109,25 +109,25 @@ void Tetromino::setType(tetroType newType) {
 		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 0 }, { 2, 0 } } };
 		break;
 	case tetroType::O:
-		blocks = { { { 0, 0 },{ 1, 1 },{ 1, 0 },{ 0, 1 } } };
+		blocks = { { { 0, 0 }, { 1, 1 }, { 1, 0 }, { 0, 1 } } };
 		break;
 	case tetroType::T:
-		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 0, 1 } } };
+		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 0 }, { 0, 1 } } };
 		break;
 	case tetroType::J:
-		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 1, 1 } } };
+		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 0 }, { 1, 1 } } };
 		break;
 	case tetroType::L:
-		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ -1, 1 } } };
+		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 0 }, { -1, 1 } } };
 		break;
 	case tetroType::S:
-		blocks = { { { 0, 0 },{ -1, 1 },{ 1, 0 },{ 0, 1 } } };
+		blocks = { { { 0, 0 }, { -1, 1 }, { 1, 0 }, { 0, 1 } } };
 		break;
 	case tetroType::Z:
-		blocks = { { { 0, 0 },{ -1, 0 },{ 1, 1 },{ 0, 1 } } };
+		blocks = { { { 0, 0 }, { -1, 0 }, { 1, 1 }, { 0, 1 } } };
 		break;
 	case tetroType::None:
-		blocks = { { { 0, 0 },{ 0, 0 },{ 0, 0 },{ 0, 0 } } };
+		blocks = { { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } } };
 	}
 }
 

@@ -9,13 +9,12 @@ struct Position {
 									 y(y) {
 	}
 
-	Position(const Position& other) : x(other.x),
-												 y(other.y) {
-	}
+	Position(const Position& other) = default;
 
-	void operator=(const Position& other) {
+	Position& operator=(const Position& other) {
 		x = other.x;
 		y = other.y;
+		return *this;
 	}
 
 	int x;

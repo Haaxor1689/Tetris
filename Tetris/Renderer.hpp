@@ -1,12 +1,12 @@
 #pragma once
 
-#include <SDL.h>
-#include <stdexcept>
-#include "Sprite.hpp"
-#include "Font.hpp"
 #include "Enums.hpp"
+#include "Font.hpp"
 #include "Position.hpp"
+#include "Sprite.hpp"
+#include <SDL.h>
 #include <map>
+#include <stdexcept>
 
 class Renderer {
 public:

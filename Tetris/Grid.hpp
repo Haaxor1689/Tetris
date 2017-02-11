@@ -1,15 +1,15 @@
 #pragma once
 
-#include <array>
-#include <deque>
 #include "Enums.hpp"
 #include "Position.hpp"
+#include <array>
+#include <deque>
 
 struct Grid {
 	Grid(Position corner, int tileSize) : corner(corner),
 													  tileSize(tileSize),
-													  width(static_cast<int>(matrix[0].size())),
-													  height(static_cast<int>(matrix.size())) {
+													  width(10),
+													  height(20) {
 		for (auto& i : matrix)
 			i.fill(gridBlock::Empty);
 	}
