@@ -1,5 +1,4 @@
-#ifndef TETRIS_POSITION_HPP
-#define TETRIS_POSITION_HPP
+#pragma once
 
 struct Position {
 	Position() : x(0), y(0) {}
@@ -14,5 +13,3 @@ struct Position {
 	int x;
 	int y;
 };
-
-#endif //TETRIS_POSITION_HPP

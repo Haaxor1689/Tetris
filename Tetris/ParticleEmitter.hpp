@@ -1,12 +1,13 @@
-#ifndef TETRIS_PARTICLEEMITTER_HPP
-#define TETRIS_PARTICLEEMITTER_HPP
+#pragma once
 
 #include <chrono>
 #include <map>
 #include <vector>
 #include "Position.hpp"
 #include "Renderer.hpp"
-#include "Sprite.hpp"
+
+
+/* NOT IMPLEMENTED */
 
 struct Particle {
 	Particle(int x, int y) : pivot({ x, y }), speed(1.0f), alpha(255), alarm(std::chrono::high_resolution_clock::now()) {}
@@ -54,7 +55,7 @@ public:
 	void draw(Renderer& renderer, std::map<std::string, Sprite>& textures) {
 		for (const auto& i : particles) {
 			if (i.alive)
-				textures.find(texture)->second.draw(renderer, i.pivot.x, i.pivot.y, i.alpha);
+				renderer.drawSprite(texture, { i.pivot.x, i.pivot.y }, i.alpha);
 		}
 	}
 
@@ -64,5 +65,3 @@ private:
 	std::string texture;
 	std::vector<Particle> particles;
 };
-
-#endif // TETRIS_PARTICLEEMITTER_HPP

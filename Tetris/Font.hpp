@@ -1,19 +1,10 @@
-#ifndef TETRIS_FONT_HPP
-#define TETRIS_FONT_HPP
+#pragma once
 
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdexcept>
 #include <string>
-#include "Renderer.hpp"
-
-enum class textHAlign {
-	left, middle, right
-};
-
-enum class textVAlign {
-	top, middle, bottom
-};
+#include "Enums.hpp"
 
 class Font {
 public:
@@ -32,12 +23,12 @@ public:
 		TTF_CloseFont(font);
 	}
 
-	void draw(Renderer& renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
+	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
 		SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
 		if (!surface)
 			throw std::runtime_error(SDL_GetError());
 
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer.renderer, surface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if (!texture)
 			throw std::runtime_error(SDL_GetError());
 
@@ -72,7 +63,7 @@ public:
 			break;
 		}
 
-		if (SDL_RenderCopy(renderer.renderer, texture, nullptr, &rectangle))
+		if (SDL_RenderCopy(renderer, texture, nullptr, &rectangle))
 			throw std::runtime_error(SDL_GetError());
 
 		SDL_DestroyTexture(texture);
@@ -81,5 +72,3 @@ public:
 private:
 	TTF_Font* font;
 };
-
-#endif //TETRIS_FONT_HPP

@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="Enums.hpp" />
     <ClInclude Include="Event.hpp" />
     <ClInclude Include="Font.hpp" />
     <ClInclude Include="Grid.hpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Enums.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tetromino.cpp" />
   </ItemGroup>

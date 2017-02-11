@@ -1,4 +1,5 @@
 #include "Engine.hpp"
+
 Engine::Engine() :
 		state(gameState::intro),
 		grid({360, 12}, 24),
@@ -8,19 +9,19 @@ Engine::Engine() :
 		tetroWaiting(grid),
 		alarm(std::chrono::high_resolution_clock::now()) {
 	// Sprite loading
-	textures.insert(std::make_pair("Background", Sprite("resources/Background.png", renderer)));
-	textures.insert(std::make_pair("EmptyBlock", Sprite("resources/EmptyBlock.png", renderer)));
-	textures.insert(std::make_pair("BlueBlock", Sprite("resources/BlueBlock.png", renderer)));
-	textures.insert(std::make_pair("GreenBlock", Sprite("resources/GreenBlock.png", renderer)));
-	textures.insert(std::make_pair("OrangeBlock", Sprite("resources/OrangeBlock.png", renderer)));
-	textures.insert(std::make_pair("PurpleBlock", Sprite("resources/PurpleBlock.png", renderer)));
-	textures.insert(std::make_pair("RedBlock", Sprite("resources/RedBlock.png", renderer)));
-	textures.insert(std::make_pair("TealBlock", Sprite("resources/TealBlock.png", renderer)));
-	textures.insert(std::make_pair("YellowBlock", Sprite("resources/YellowBlock.png", renderer)));
+	renderer.addSprite("Background", "resources/Background.png");
+	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
+	renderer.addSprite("BlueBlock", "resources/BlueBlock.png");
+	renderer.addSprite("GreenBlock", "resources/GreenBlock.png");
+	renderer.addSprite("OrangeBlock", "resources/OrangeBlock.png");
+	renderer.addSprite("PurpleBlock", "resources/PurpleBlock.png");
+	renderer.addSprite("RedBlock", "resources/RedBlock.png");
+	renderer.addSprite("TealBlock", "resources/TealBlock.png");
+	renderer.addSprite("YellowBlock", "resources/YellowBlock.png");
 
 	// Font loading
-	fonts.insert(std::make_pair("Title", Font("resources/Bitmgothic.ttf", 60)));
-	fonts.insert(std::make_pair("MenuItem", Font("resources/Bitmgothic.ttf", 20)));
+	renderer.addFont("Title", "resources/Bitmgothic.ttf", 60);
+	renderer.addFont("MenuItem", "resources/Bitmgothic.ttf", 20);
 
 	// Randomize waiting tetormino
 	tetroWaiting.setType();
@@ -108,7 +109,7 @@ void Engine::step() {
 						rowDone = false;
 
 				if (rowDone) {
-					lastScored += 100 * (0.5 + multiplier);
+					lastScored += 100 * static_cast<int>(0.5 + multiplier);
 					grid.done.push_front(grid.matrix[j]);
 					grid.matrix[j].fill(gridBlock::Empty);
 					for (int i = j; i > 0; --i)
@@ -117,7 +118,9 @@ void Engine::step() {
 					++j;
 				}
 			}
+			lastScored += tetroFalling.getWorth();
 			score += lastScored;
+
 
 			tetroFalling.setState(tetroState::Falling);
 			tetroFalling.setType(tetroWaiting.getType());
@@ -131,112 +134,50 @@ void Engine::step() {
 }
 
 void Engine::draw() {
-	SDL_RenderClear(renderer.renderer);
+	SDL_RenderClear(renderer.getRenderer());
 
 	std::ostringstream oss;
-	sprite("Background", 0, 0);
+	renderer.drawSprite("Background", { 0, 0 });
 	switch(state) {
 	case gameState::intro:
-		text("Tetris", "Title", 480, 120);
-		text("Press any key to start", "MenuItem", 480, 500);
+		renderer.drawText("Tetris", "Title", { 480, 120 });
+		renderer.drawText("Press any key to start", "MenuItem", { 480, 500 });
 		break;
 	case gameState::menu:
-		text("Tetris", "Title", 480, 120);
-		text("New Game (N)", "MenuItem", 480, 300);
-		text("Continue (C)", "MenuItem", 480, 340);
-		text("Quit (Esc)", "MenuItem", 480, 380);
+		renderer.drawText("Tetris", "Title", { 480, 120 });
+		renderer.drawText("New Game (N)", "MenuItem", { 480, 300 });
+		renderer.drawText("Continue (C)", "MenuItem", { 480, 340 });
+		renderer.drawText("Quit (Esc)", "MenuItem", { 480, 380 });
 		break;
 	case gameState::play:
 		oss << "Score: " << score << " points";
-		text(oss.str(), "MenuItem", 140, 20, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
+		renderer.drawText(oss.str(), "MenuItem", { 140, 20 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
 
 		oss.str(std::string());
 		oss << "Last Scored: " << lastScored << " points";
-		text(oss.str(), "MenuItem", 140, 60, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
+		renderer.drawText(oss.str(), "MenuItem", { 140, 60 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
 
 		for (int j = 0; j < grid.matrix.size(); ++j)
 			for (int i = 0; i < grid.matrix[j].size(); ++i) {
 				std::string texture;
-				switch(grid.matrix[j][i]) {
-				case gridBlock::Empty:
-					texture = "EmptyBlock";
-					break;
-				case gridBlock::Blue:
-					texture = "BlueBlock";
-					break;
-				case gridBlock::Green:
-					texture = "GreenBlock";
-					break;
-				case gridBlock::Orange:
-					texture = "OrangeBlock";
-					break;
-				case gridBlock::Purple:
-					texture = "PurpleBlock";
-					break;
-				case gridBlock::Red:
-					texture = "RedBlock";
-					break;
-				case gridBlock::Teal:
-					texture = "TealBlock";
-					break;
-				case gridBlock::Yellow:
-					texture = "YellowBlock";
-					break;
-				}
-				sprite(texture, grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize);
+				texture = toString(grid.matrix[j][i]);
+				renderer.drawSprite(texture, { grid.corner.x + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
 			}
 
 		for (int j = 0; j < grid.done.size(); ++j)
 			for (int i = 0; i < grid.done[j].size(); ++i) {
 				std::string texture;
-				switch (grid.done[j][i]) {
-				case gridBlock::Empty:
-					texture = "EmptyBlock";
-					break;
-				case gridBlock::Blue:
-					texture = "BlueBlock";
-					break;
-				case gridBlock::Green:
-					texture = "GreenBlock";
-					break;
-				case gridBlock::Orange:
-					texture = "OrangeBlock";
-					break;
-				case gridBlock::Purple:
-					texture = "PurpleBlock";
-					break;
-				case gridBlock::Red:
-					texture = "RedBlock";
-					break;
-				case gridBlock::Teal:
-					texture = "TealBlock";
-					break;
-				case gridBlock::Yellow:
-					texture = "YellowBlock";
-					break;
-				}
-				sprite(texture, grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + j * grid.tileSize);
+				texture = toString(grid.done[j][i]);
+				renderer.drawSprite(texture, { grid.corner.x + 264 + i * grid.tileSize, grid.corner.y + j * grid.tileSize });
 			}
 
-
-		tetroFalling.draw(renderer, textures);
-		tetroWaiting.draw(renderer, textures);
+		tetroFalling.draw(renderer);
+		tetroWaiting.draw(renderer);
 		break;
 	default:
-		text("Placeholder", "Title", 480, 300);
+		renderer.drawText("Placeholder", "Title", { 480, 300 });
 		break;
 	}
 
-	SDL_RenderPresent(renderer.renderer);
-}
-
-Engine::~Engine() {
-}
-
-void Engine::text(std::string text, std::string font, int x, int y, SDL_Color color, textHAlign hAlign, textVAlign vAlign) {
-	fonts.find(font)->second.draw(renderer, text, x, y, hAlign, vAlign, color);
-}
-
-void Engine::sprite(std::string texture, int x, int y) {
-	textures.find(texture)->second.draw(renderer, x, y);
+	SDL_RenderPresent(renderer.getRenderer());
 }

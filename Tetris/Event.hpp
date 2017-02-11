@@ -1,5 +1,4 @@
-#ifndef TETRIS_EVENT_HPP
-#define TETRIS_EVENT_HPP
+#pragma once
 
 #include <SDL.h>
 #include <stdexcept>
@@ -23,6 +22,3 @@ public:
 private:
 	SDL_Event event;
 };
-
-
-#endif //TETRIS_EVENT_HPP

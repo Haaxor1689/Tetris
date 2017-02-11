@@ -1,20 +1,18 @@
-#ifndef TETRIS_SPRITE_HPP
-#define TETRIS_SPRITE_HPP
+#pragma once
 
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
-#include "Renderer.hpp"
 
 class Sprite {
 public:
-	Sprite(std::string path, Renderer& renderer) {
+	Sprite(std::string path, SDL_Renderer* renderer) {
 		SDL_Surface* loadedImage = IMG_Load(path.c_str());
 		if (!loadedImage)
 			throw std::runtime_error(SDL_GetError());
 
-		texture = SDL_CreateTextureFromSurface(renderer.renderer, loadedImage);
+		texture = SDL_CreateTextureFromSurface(renderer, loadedImage);
 		if (!texture)
 			throw std::runtime_error(SDL_GetError());
 
@@ -32,7 +30,7 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	void draw(Renderer& renderer, int x, int y, int alpha = 255) {
+	void draw(SDL_Renderer* renderer, int x, int y, int alpha = 255) {
 		rectangle.x = x;
 		rectangle.y = y;
 
@@ -40,7 +38,7 @@ public:
 			if (SDL_SetTextureAlphaMod(texture, alpha))
 				throw std::runtime_error(SDL_GetError());
 
-		if (SDL_RenderCopy(renderer.renderer, texture, nullptr, &rectangle))
+		if (SDL_RenderCopy(renderer, texture, nullptr, &rectangle))
 			throw std::runtime_error(SDL_GetError());
 
 		if (alpha != 255)
@@ -52,5 +50,3 @@ private:
 	SDL_Rect rectangle;
 	SDL_Texture* texture;
 };
-
-#endif //TETRIS_SPRITE_HPP

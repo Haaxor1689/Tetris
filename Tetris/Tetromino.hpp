@@ -1,20 +1,11 @@
-#ifndef TETRIS_TETROMINO_HPP
-#define TETRIS_TETROMINO_HPP
+#pragma once
 
 #include <map>
 #include <chrono>
+#include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
-#include "Position.hpp"
-#include "Sprite.hpp"
-
-enum class tetroType {
-	None, I, O, T, J, L, S, Z
-};
-
-enum class tetroState {
-	Disabled, Falling, Waiting
-};
+#include "Renderer.hpp"
 
 class Tetromino {
 public:
@@ -22,7 +13,7 @@ public:
 
 	void input(const Event& event);
 	void step();
-	void draw(Renderer& renderer, std::map<std::string, Sprite>& textures);
+	void draw(Renderer& renderer);
 
 	void setState(tetroState newState);
 	tetroState getState() const;
@@ -31,9 +22,10 @@ public:
 	void setType(tetroType type);
 	tetroType getType() const;
 
+	int getWorth() const;
 	void resetPosition();
 
-	bool nonCollision(Position pos);
+	bool nonCollision(Position pos) const;
 
 	bool rotateLeft();
 	bool rotateRight();
@@ -50,7 +42,4 @@ private:
 
 	std::array<Position, 4> blocks;
 	std::chrono::high_resolution_clock::time_point alarm;
-	std::string texture;
 };
-
-#endif //TETRIS_TETROMINO_HPP

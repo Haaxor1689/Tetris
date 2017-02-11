@@ -1,13 +1,9 @@
-#ifndef TETRIS_GRID_HPP
-#define TETRIS_GRID_HPP
+#pragma once
 
 #include <array>
 #include <deque>
+#include "Enums.hpp"
 #include "Position.hpp"
-
-enum class gridBlock {
-	Empty, Blue, Green, Orange, Purple, Red, Teal, Yellow
-};
 
 struct Grid {
 	Grid (Position corner, int tileSize) : corner(corner),
@@ -23,6 +19,10 @@ struct Grid {
 			i.fill(gridBlock::Empty);
 	}
 
+	bool isEmpty(Position&& pos) const {
+		return matrix[pos.y][pos.x] == gridBlock::Empty;
+	}
+
 	const Position corner;
 	const int tileSize;
 	const int width;
@@ -30,5 +30,3 @@ struct Grid {
 	std::array<std::array<gridBlock, 10>, 20> matrix;
 	std::deque<std::array<gridBlock, 10> > done;
 };
-
-#endif //TETRIS_GRID_HPP
