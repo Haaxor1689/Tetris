@@ -1,16 +1,11 @@
 #pragma once
 
 #include <chrono>
-#include <SDL.h>
-#include <map>
-#include <sstream>
 #include "Renderer.hpp"
 #include "Enums.hpp"
 #include "Event.hpp"
-#include "Font.hpp"
 #include "Grid.hpp"
 #include "Tetromino.hpp"
-#include "Sprite.hpp"
 
 class Engine {
 public:

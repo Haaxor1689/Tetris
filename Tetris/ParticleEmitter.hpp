@@ -10,7 +10,13 @@
 /* NOT IMPLEMENTED */
 
 struct Particle {
-	Particle(int x, int y) : pivot({ x, y }), speed(1.0f), alpha(255), alarm(std::chrono::high_resolution_clock::now()) {}
+	Particle(int x, int y) : alive(true), 
+									 pivot({ x, y }),
+									 speed(1.0f),
+									 alpha(255),
+									 alarm(std::chrono::high_resolution_clock::now()) {
+	}
+
 	void step() {
 		if (alpha <= 0) {
 			alive = false;
@@ -34,7 +40,10 @@ struct Particle {
 
 class ParticleEmitter {
 public:
-	ParticleEmitter(int x, int y, std::string texture) : active(false), pivot({x, y}), texture(texture) {}
+	ParticleEmitter(int x, int y, std::string texture) : active(false),
+																		  pivot({ x, y }),
+																		  texture(texture) {
+	}
 
 	void activate() {
 		active = true;

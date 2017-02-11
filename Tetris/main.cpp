@@ -1,10 +1,10 @@
 #include <iostream>
 #include "Engine.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	try {
 		// SDL Initialization
-		if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS) != 0)
+		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
 			throw std::runtime_error(SDL_GetError());
 
 		// IMG Initialization

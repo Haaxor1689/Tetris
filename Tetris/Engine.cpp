@@ -1,6 +1,14 @@
 #include "Engine.hpp"
+#include  <sstream>
 
-Engine::Engine() : state(gameState::intro), grid({360, 12}, 24), score(0), lastScored(0), tetroFalling(grid), tetroWaiting(grid), alarm(std::chrono::high_resolution_clock::now()) {
+Engine::Engine() : state(gameState::intro), 
+						 score(0), 
+						 lastScored(0), 
+						 multiplier(0),
+						 grid({ 360, 12 }, 24),
+						 tetroFalling(grid),
+						 tetroWaiting(grid),
+						 alarm(std::chrono::high_resolution_clock::now()) {
 	// Sprite loading
 	renderer.addSprite("Background", "resources/Background.png");
 	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
@@ -24,7 +32,7 @@ void Engine::run() {
 	tetroFalling.setState(tetroState::Falling);
 	tetroWaiting.setState(tetroState::Waiting);
 
-	while(state != gameState::exit) {
+	while (state != gameState::exit) {
 		//	Input handling
 		while (SDL_PollEvent(&event.get()))
 			input(event);
@@ -42,7 +50,7 @@ void Engine::input(const Event& event) {
 		state = gameState::exit;
 	}
 
-	switch(state){
+	switch (state) {
 	case gameState::intro:
 		if (event.type() == SDL_KEYDOWN) {
 			state = gameState::menu;
@@ -50,7 +58,7 @@ void Engine::input(const Event& event) {
 		break;
 	case gameState::menu:
 		if (event.type() == SDL_KEYDOWN) {
-			switch(event.key()) {
+			switch (event.key()) {
 			case SDLK_n:
 				state = gameState::play;
 				tetroFalling.setType();
@@ -65,6 +73,8 @@ void Engine::input(const Event& event) {
 			case SDLK_ESCAPE:
 				state = gameState::exit;
 				break;
+			default:
+				break;
 			}
 		}
 		break;
@@ -76,6 +86,8 @@ void Engine::input(const Event& event) {
 			case SDLK_ESCAPE:
 				state = gameState::menu;
 				score = 0;
+				break;
+			default:
 				break;
 			}
 		}
@@ -92,7 +104,7 @@ void Engine::input(const Event& event) {
 
 void Engine::step() {
 	bool rowDone;
-	switch(state) {
+	switch (state) {
 	case gameState::play:
 		tetroFalling.step();
 		tetroWaiting.step();
@@ -119,7 +131,6 @@ void Engine::step() {
 			lastScored += tetroFalling.getWorth();
 			score += lastScored;
 
-
 			tetroFalling.setState(tetroState::Falling);
 			tetroFalling.setType(tetroWaiting.getType());
 			tetroFalling.resetPosition();
@@ -136,7 +147,7 @@ void Engine::draw() {
 
 	std::ostringstream oss;
 	renderer.drawSprite("Background", { 0, 0 });
-	switch(state) {
+	switch (state) {
 	case gameState::intro:
 		renderer.drawText("Tetris", "Title", { 480, 120 });
 		renderer.drawText("Press any key to start", "MenuItem", { 480, 500 });

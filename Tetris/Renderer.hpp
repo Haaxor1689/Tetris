@@ -1,12 +1,12 @@
 #pragma once
 
-#include <iostream>
 #include <SDL.h>
 #include <stdexcept>
 #include "Sprite.hpp"
 #include "Font.hpp"
 #include "Enums.hpp"
 #include "Position.hpp"
+#include <map>
 
 class Renderer {
 public:
@@ -25,16 +25,16 @@ public:
 		SDL_DestroyRenderer(renderer);
 	}
 
-	void drawText(std::string text, 
-					  std::string font, 
-					  Position pos, 
+	void drawText(std::string text,
+					  std::string font,
+					  Position pos,
 					  SDL_Color color = { 255, 255, 255, 255 },
-					  textHAlign hAlign = textHAlign::middle, 
+					  textHAlign hAlign = textHAlign::middle,
 					  textVAlign vAlign = textVAlign::middle) {
 		fonts.find(font)->second.draw(renderer, text, pos.x, pos.y, hAlign, vAlign, color);
 	}
 
-	void drawSprite(std::string texture, 
+	void drawSprite(std::string texture,
 						 Position pos,
 						 int alpha = 255) {
 		sprites.find(texture)->second.draw(renderer, pos.x, pos.y, alpha);
@@ -48,7 +48,7 @@ public:
 		sprites.insert(std::make_pair(name, Sprite(path, renderer)));
 	}
 
-	SDL_Renderer* getRenderer() {
+	SDL_Renderer* getRenderer() const {
 		return renderer;
 	}
 

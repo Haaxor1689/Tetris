@@ -6,11 +6,11 @@
 #include "Position.hpp"
 
 struct Grid {
-	Grid (Position corner, int tileSize) : corner(corner),
-	                                       tileSize(tileSize),
-	                                       width(static_cast<int>(matrix[0].size())),
-	                                       height(static_cast<int>(matrix.size())) {
-		for(auto& i : matrix)
+	Grid(Position corner, int tileSize) : corner(corner),
+													  tileSize(tileSize),
+													  width(static_cast<int>(matrix[0].size())),
+													  height(static_cast<int>(matrix.size())) {
+		for (auto& i : matrix)
 			i.fill(gridBlock::Empty);
 	}
 
@@ -28,5 +28,5 @@ struct Grid {
 	const int width;
 	const int height;
 	std::array<std::array<gridBlock, 10>, 20> matrix;
-	std::deque<std::array<gridBlock, 10> > done;
+	std::deque<std::array<gridBlock, 10>> done;
 };

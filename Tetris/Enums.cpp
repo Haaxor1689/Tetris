@@ -10,6 +10,7 @@ gridBlock toGridBlock(tetroType value) {
 	case tetroType::S: return gridBlock::Green;
 	case tetroType::Z: return gridBlock::Red;
 	case tetroType::None: return gridBlock::Empty;
+	default: return gridBlock::Empty;
 	}
 }
 
@@ -23,6 +24,7 @@ std::string toString(tetroType value) {
 	case tetroType::S: return "GreenBlock";
 	case tetroType::Z: return "RedBlock";
 	case tetroType::None: return "EmptyBlock";
+	default: return "";
 	}
 }
 
@@ -36,5 +38,6 @@ std::string toString(gridBlock value) {
 	case gridBlock::Green: return "GreenBlock";
 	case gridBlock::Red: return "RedBlock";
 	case gridBlock::Empty: return "EmptyBlock";
+	default: return "";
 	}
 }

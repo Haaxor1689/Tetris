@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 #include <stdexcept>
-#include <typeinfo>
 
 class Event {
 public:
@@ -17,7 +16,9 @@ public:
 		throw std::logic_error("Not a key.");
 	}
 
-	SDL_Event& get() { return event; }
+	SDL_Event& get() {
+		return event;
+	}
 
 private:
 	SDL_Event event;

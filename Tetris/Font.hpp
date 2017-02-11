@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdexcept>
-#include <string>
 #include "Enums.hpp"
 
 class Font {
@@ -14,7 +13,7 @@ public:
 			throw std::runtime_error(SDL_GetError());
 	}
 
-	Font(Font&& other) {
+	Font(Font&& other) noexcept {
 		font = other.font;
 		other.font = nullptr;
 	}
@@ -23,7 +22,7 @@ public:
 		TTF_CloseFont(font);
 	}
 
-	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
+	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) const {
 		SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
 		if (!surface)
 			throw std::runtime_error(SDL_GetError());
@@ -39,7 +38,7 @@ public:
 		rectangle.x = x;
 		rectangle.y = y;
 
-		switch(hAlign) {
+		switch (hAlign) {
 		case textHAlign::left:
 			rectangle.x = x;
 			break;
@@ -51,7 +50,7 @@ public:
 			break;
 		}
 
-		switch(vAlign) {
+		switch (vAlign) {
 		case textVAlign::top:
 			rectangle.y = y;
 			break;
