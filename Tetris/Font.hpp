@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enums.hpp"
+#include "Wrappers.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdexcept>
@@ -13,28 +14,21 @@ public:
 			throw std::runtime_error(SDL_GetError());
 	}
 
-	Font(Font&& other) noexcept {
-		font = other.font;
-		other.font = nullptr;
-	}
+	Font(const Font& other) = default;
+	Font& operator=(const Font& other) = default;
+	Font(Font&& other) = default;
+	Font& operator=(Font&& other) = default;
 
 	~Font() {
 		TTF_CloseFont(font);
 	}
 
 	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) const {
-		SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
-		if (!surface)
-			throw std::runtime_error(SDL_GetError());
-
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-		if (!texture)
-			throw std::runtime_error(SDL_GetError());
-
-		SDL_FreeSurface(surface);
+		Surface surface = TTF_RenderText_Solid(font, text.c_str(), color);
+		Texture texture = SDL_CreateTextureFromSurface(renderer, &surface);
 
 		SDL_Rect rectangle;
-		SDL_QueryTexture(texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
+		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 		rectangle.x = x;
 		rectangle.y = y;
 
@@ -62,10 +56,8 @@ public:
 			break;
 		}
 
-		if (SDL_RenderCopy(renderer, texture, nullptr, &rectangle))
+		if (SDL_RenderCopy(renderer, &texture, nullptr, &rectangle))
 			throw std::runtime_error(SDL_GetError());
-
-		SDL_DestroyTexture(texture);
 	}
 
 private:
