@@ -3,9 +3,11 @@
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
-#include "Renderer.hpp"
+#include "RenderController.hpp"
 #include "Tetromino.hpp"
 #include <chrono>
+
+using Timer = std::chrono::high_resolution_clock::time_point;
 
 class Engine {
 public:
@@ -20,7 +22,7 @@ private:
 	gameState state;
 
 	Event event;
-	Renderer renderer;
+	RenderController renderer;
 
 	unsigned score;
 	unsigned lastScored;
@@ -29,5 +31,5 @@ private:
 	Grid grid;
 	Tetromino tetroFalling;
 	Tetromino tetroWaiting;
-	std::chrono::high_resolution_clock::time_point alarm;
+	Timer alarm;
 };

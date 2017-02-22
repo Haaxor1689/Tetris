@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include <iostream>
+#include <fstream>
 
 int main(int, char* []) {
 	try {
@@ -18,7 +19,9 @@ int main(int, char* []) {
 		Engine engine;
 		engine.run();
 	} catch (const std::exception& Err) {
-		std::cerr << Err.what() << std::endl;
+		std::ofstream errorLog;
+		errorLog.open("errorLog.txt");
+		errorLog << Err.what();
 		TTF_Quit();
 		IMG_Quit();
 		SDL_Quit();

@@ -3,8 +3,10 @@
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
-#include "Renderer.hpp"
+#include "RenderController.hpp"
 #include <chrono>
+
+using Timer = std::chrono::high_resolution_clock::time_point;
 
 class Tetromino {
 public:
@@ -12,7 +14,7 @@ public:
 
 	void input(const Event& event);
 	void step();
-	void draw(Renderer& renderer);
+	void draw(RenderController& renderer);
 
 	void setState(tetroState newState);
 	tetroState getState() const;
@@ -43,5 +45,5 @@ private:
 	float stepSpeed;
 
 	std::array<Position, 4> blocks;
-	std::chrono::high_resolution_clock::time_point alarm;
+	Timer alarm;
 };

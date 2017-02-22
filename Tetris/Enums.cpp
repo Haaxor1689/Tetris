@@ -2,69 +2,69 @@
 
 gridBlock toGridBlock(tetroType value) {
 	switch (value) {
-	case tetroType::I: 
+	case tetroType::I:
 		return gridBlock::Teal;
-	case tetroType::O: 
+	case tetroType::O:
 		return gridBlock::Yellow;
-	case tetroType::T: 
+	case tetroType::T:
 		return gridBlock::Purple;
-	case tetroType::J: 
+	case tetroType::J:
 		return gridBlock::Blue;
-	case tetroType::L: 
+	case tetroType::L:
 		return gridBlock::Orange;
-	case tetroType::S: 
+	case tetroType::S:
 		return gridBlock::Green;
-	case tetroType::Z: 
+	case tetroType::Z:
 		return gridBlock::Red;
-	case tetroType::None: 
+	case tetroType::None:
 		return gridBlock::Empty;
-	default: 
+	default:
 		return gridBlock::Empty;
 	}
 }
 
 std::string toString(tetroType value) {
 	switch (value) {
-	case tetroType::I: 
+	case tetroType::I:
 		return "TealBlock";
-	case tetroType::O: 
+	case tetroType::O:
 		return "YellowBlock";
-	case tetroType::T: 
+	case tetroType::T:
 		return "PurpleBlock";
-	case tetroType::J: 
+	case tetroType::J:
 		return "BlueBlock";
-	case tetroType::L: 
+	case tetroType::L:
 		return "OrangeBlock";
-	case tetroType::S: 
+	case tetroType::S:
 		return "GreenBlock";
-	case tetroType::Z: 
+	case tetroType::Z:
 		return "RedBlock";
-	case tetroType::None: 
+	case tetroType::None:
 		return "EmptyBlock";
-	default: 
+	default:
 		return "";
 	}
 }
 
 std::string toString(gridBlock value) {
 	switch (value) {
-	case gridBlock::Teal: 
+	case gridBlock::Teal:
 		return "TealBlock";
-	case gridBlock::Yellow: 
+	case gridBlock::Yellow:
 		return "YellowBlock";
-	case gridBlock::Purple: 
+	case gridBlock::Purple:
 		return "PurpleBlock";
-	case gridBlock::Blue: 
+	case gridBlock::Blue:
 		return "BlueBlock";
-	case gridBlock::Orange: 
+	case gridBlock::Orange:
 		return "OrangeBlock";
-	case gridBlock::Green: 
+	case gridBlock::Green:
 		return "GreenBlock";
-	case gridBlock::Red: 
+	case gridBlock::Red:
 		return "RedBlock";
-	case gridBlock::Empty: 
+	case gridBlock::Empty:
 		return "EmptyBlock";
-	default: 
+	default:
 		return "";
 	}
 }

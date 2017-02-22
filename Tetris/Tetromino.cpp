@@ -68,7 +68,7 @@ void Tetromino::step() {
 		}
 }
 
-void Tetromino::draw(Renderer& renderer) {
+void Tetromino::draw(RenderController& renderer) {
 	auto texture = toString(type);
 	switch (state) {
 	case tetroState::Falling:
@@ -79,7 +79,7 @@ void Tetromino::draw(Renderer& renderer) {
 		break;
 	case tetroState::Waiting:
 		for (const auto& i : blocks)
-			renderer.drawSprite(texture, { 200 + i.x * grid.tileSize, 200 + i.y * grid.tileSize });
+			renderer.drawSprite(texture, { 664 + i.x * grid.tileSize, 46 + i.y * grid.tileSize });
 		break;
 	case tetroState::Disabled:
 		break;

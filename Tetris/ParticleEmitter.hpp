@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include "Position.hpp"
-#include "Renderer.hpp"
+#include "RenderController.hpp"
 
 
 /* NOT IMPLEMENTED */
@@ -61,7 +61,7 @@ public:
 			}
 	}
 
-	void draw(Renderer& renderer, std::map<std::string, Sprite>& textures) {
+	void draw(RenderController& renderer, std::map<std::string, Sprite>& textures) {
 		for (const auto& i : particles) {
 			if (i.alive)
 				renderer.drawSprite(texture, { i.pivot.x, i.pivot.y }, i.alpha);

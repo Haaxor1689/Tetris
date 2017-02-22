@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\libs\SDL2-2.0.5\include;C:\libs\SDL2_ttf-2.0.14\include;C:\libs\SDL2_image-2.0.1\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -128,6 +129,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\libs\SDL2-2.0.5\lib\x86;C:\libs\SDL2_ttf-2.0.14\lib\x86;C:\libs\SDL2_image-2.0.1\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib.;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,7 +159,7 @@
     <ClInclude Include="Grid.hpp" />
     <ClInclude Include="ParticleEmitter.hpp" />
     <ClInclude Include="Position.hpp" />
-    <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="RenderController.hpp" />
     <ClInclude Include="Tetromino.hpp" />
     <ClInclude Include="Sprite.hpp" />
   </ItemGroup>
