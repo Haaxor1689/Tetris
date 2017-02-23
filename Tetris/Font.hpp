@@ -14,13 +14,14 @@ public:
 			throw std::runtime_error(SDL_GetError());
 	}
 
-	Font(const Font& other) = default;
-	Font& operator=(const Font& other) = default;
+	Font(const Font& other) = delete;
+	Font& operator=(const Font& other) = delete;
 	Font(Font&& other) = default;
 	Font& operator=(Font&& other) = default;
 
 	~Font() {
-		TTF_CloseFont(font);
+		if(!font)
+			TTF_CloseFont(font);
 	}
 
 	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) const {
