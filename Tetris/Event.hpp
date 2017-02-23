@@ -2,22 +2,64 @@
 
 #include <SDL.h>
 #include <stdexcept>
+#include "Position.hpp"
 
 class Event {
 public:
-	auto type() const {
+	int type() const {
 		return event.type;
 	}
 
-	auto key() const {
-		if (event.type == SDL_KEYDOWN) {
-			return event.key.keysym.sym;
+	std::string name() const {
+		switch (type()) {
+		case SDL_KEYDOWN: return "KeyDown";
+		case SDL_KEYUP: return "KeyUp";
+		case SDL_MOUSEMOTION: return "MouseMotion";
+		case SDL_MOUSEBUTTONDOWN: return "MouseButtonDown";
+		case SDL_MOUSEBUTTONUP: return "MouseButtonUp";
+		default: return "Unused";
 		}
-		throw std::logic_error("Not a key.");
 	}
 
-	SDL_Event& get() {
-		return event;
+	int key() const {
+		switch(type()) {
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			return event.key.keysym.sym;
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+			return event.button.button;
+		default:
+			throw std::logic_error("No key for " + name() + " event.");
+		}
+	}
+
+	int state() const {
+		switch (type()) {
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			return event.key.state;
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+			return event.button.state;
+		default:
+			throw std::logic_error("No state for " + name() + " event.");
+		}
+	}
+
+	Position position() const {
+		switch (type()) {
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+			return { event.button.x, event.button.y };
+		default:
+			throw std::logic_error("No position for " + name() + " event.");
+		}
+		
+	}
+
+	SDL_Event* operator&() {
+		return &event;
 	}
 
 private:

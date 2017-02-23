@@ -35,7 +35,7 @@ void Engine::run() {
 
 	while (state != gameState::exit) {
 		//	Input handling
-		while (SDL_PollEvent(&event.get()))
+		while (SDL_PollEvent(&event))
 			input(event);
 
 		// Game logic
@@ -55,7 +55,8 @@ void Engine::input(const Event& event) {
 	case gameState::intro:
 		if (event.type() == SDL_KEYDOWN) {
 			state = gameState::menu;
-		}
+		} else if (event.type() == SDL_MOUSEBUTTONUP)
+			state = gameState::menu;
 		break;
 	case gameState::menu:
 		if (event.type() == SDL_KEYDOWN) {
@@ -80,6 +81,12 @@ void Engine::input(const Event& event) {
 			default:
 				break;
 			}
+		} else if (event.type() == SDL_MOUSEBUTTONUP) {
+			if (event.position().x > 400 && 
+				 event.position().x < 560 && 
+				 event.position().y > 340 &&
+				 event.position().y < 420)
+				state = gameState::exit;
 		}
 		break;
 	case gameState::play:
