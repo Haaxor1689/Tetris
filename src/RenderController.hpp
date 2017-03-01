@@ -4,7 +4,7 @@
 #include "Font.hpp"
 #include "Position.hpp"
 #include "Sprite.hpp"
-#include "Wrappers.h"
+#include "Wrappers.hpp"
 #include <SDL/SDL.h>
 #include <map>
 #include <stdexcept>
@@ -20,8 +20,8 @@ public:
 					  std::string font,
 					  Position pos,
 					  SDL_Color color = { 255, 255, 255, 255 },
-					  textHAlign hAlign = textHAlign::middle,
-					  textVAlign vAlign = textVAlign::middle) {
+					  textHAlign hAlign = textHAlign::Middle,
+					  textVAlign vAlign = textVAlign::Middle) {
 		fonts.find(font)->second.draw(&renderer, text, pos.x, pos.y, hAlign, vAlign, color);
 	}
 

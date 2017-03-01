@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Wrappers.h"
+#include "Wrappers.hpp"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <string>

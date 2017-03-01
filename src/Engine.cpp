@@ -1,14 +1,9 @@
 #include "Engine.hpp"
 #include <sstream>
 
-Engine::Engine() : state(gameState::intro),
-						 score(0),
-						 lastScored(0),
-						 multiplier(0),
-						 grid({ 360, 12 }, 24),
+Engine::Engine() : grid({ 360, 12 }, 24),
 						 tetroFalling(grid),
-						 tetroWaiting(grid),
-						 alarm(std::chrono::high_resolution_clock::now()) {
+						 tetroWaiting(grid) {
 	// Sprite loading
 	renderer.addSprite("Background", "resources/Background.png");
 	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
@@ -30,37 +25,31 @@ Engine::Engine() : state(gameState::intro),
 }
 
 void Engine::run() {
-	tetroFalling.setState(tetroState::Falling);
-	tetroWaiting.setState(tetroState::Waiting);
-
 	while (state != gameState::exit) {
-		//	Input handling
-		while (SDL_PollEvent(&event))
+		Event event;
+		while (event.poll())
 			input(event);
 
-		// Game logic
 		step();
-
-		// Game drawing
 		draw();
 	}
 }
 
 void Engine::input(const Event& event) {
-	if (event.type() == SDL_QUIT) {
+	if (event.getType() == eventType::Quit) {
 		state = gameState::exit;
 	}
 
 	switch (state) {
 	case gameState::intro:
-		if (event.type() == SDL_KEYDOWN) {
+		if (event.getType() == eventType::KeyDown) {
 			state = gameState::menu;
-		} else if (event.type() == SDL_MOUSEBUTTONUP)
+		} else if (event.getType() == eventType::MouseButtonUp)
 			state = gameState::menu;
 		break;
 	case gameState::menu:
-		if (event.type() == SDL_KEYDOWN) {
-			switch (event.key()) {
+		if (event.getType() == eventType::KeyDown) {
+			switch (event.getKey()) {
 			case SDLK_n:
 				state = gameState::play;
 				score = 0;
@@ -81,19 +70,19 @@ void Engine::input(const Event& event) {
 			default:
 				break;
 			}
-		} else if (event.type() == SDL_MOUSEBUTTONUP) {
-			if (event.position().x > 400 && 
-				 event.position().x < 560 && 
-				 event.position().y > 340 &&
-				 event.position().y < 420)
+		} else if (event.getType() == eventType::MouseButtonUp) {
+			if (event.getPosition().x > 400 && 
+				 event.getPosition().x < 560 && 
+				 event.getPosition().y > 340 &&
+				 event.getPosition().y < 420)
 				state = gameState::exit;
 		}
 		break;
 	case gameState::play:
 		tetroFalling.input(event);
 
-		if (event.type() == SDL_KEYDOWN) {
-			switch (event.key()) {
+		if (event.getType() == eventType::KeyDown) {
+			switch (event.getKey()) {
 			case SDLK_ESCAPE:
 				state = gameState::menu;
 				break;
@@ -103,8 +92,8 @@ void Engine::input(const Event& event) {
 		}
 		break;
 	case gameState::gameover:
-		if (event.type() == SDL_KEYDOWN) {
-			switch (event.key()) {
+		if (event.getType() == eventType::KeyDown) {
+			switch (event.getKey()) {
 			case SDLK_ESCAPE:
 				state = gameState::menu;
 				score = 0;
@@ -176,21 +165,21 @@ void Engine::draw() {
 		renderer.drawText("New Game (N)", "MenuItem", { 480, 300 });
 		renderer.drawText("Continue (C)", "MenuItem", { 480, 340 });
 		renderer.drawText("Quit (Esc)", "MenuItem", { 480, 380 });
-		renderer.drawText("Controlls:", "MenuItem", { 140, 390 }, { 255, 255, 255, 255 }, textHAlign::left);
-		renderer.drawText("Movement - Arrows", "Text", { 140, 415 }, { 255, 255, 255, 255 }, textHAlign::left);
-		renderer.drawText("Drop - Space", "Text", { 140, 430 }, { 255, 255, 255, 255 }, textHAlign::left);
-		renderer.drawText("Rotate - X/C", "Text", { 140, 445 }, { 255, 255, 255, 255 }, textHAlign::left);
-		renderer.drawText("Pause - Esc", "Text", { 140, 460 }, { 255, 255, 255, 255 }, textHAlign::left);
+		renderer.drawText("Controlls:", "MenuItem", { 140, 390 }, { 255, 255, 255, 255 }, textHAlign::Left);
+		renderer.drawText("Movement - Arrows", "Text", { 140, 415 }, { 255, 255, 255, 255 }, textHAlign::Left);
+		renderer.drawText("Drop - Space", "Text", { 140, 430 }, { 255, 255, 255, 255 }, textHAlign::Left);
+		renderer.drawText("Rotate - X/C", "Text", { 140, 445 }, { 255, 255, 255, 255 }, textHAlign::Left);
+		renderer.drawText("Pause - Esc", "Text", { 140, 460 }, { 255, 255, 255, 255 }, textHAlign::Left);
 		break;
 	case gameState::play:
 		oss << "Score: " << score;
-		renderer.drawText(oss.str(), "MenuItem", { 140, 20 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
-		renderer.drawText("Next:", "MenuItem", { 640, 20 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
+		renderer.drawText(oss.str(), "MenuItem", { 140, 20 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
+		renderer.drawText("Next:", "MenuItem", { 640, 20 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
 
 		if (lastScored != 0) {
 			oss.str(std::string());
 			oss << "+ " << lastScored;
-			renderer.drawText(oss.str(), "MenuItem", { 185, 44 }, { 255, 255, 255, 255 }, textHAlign::left, textVAlign::top);
+			renderer.drawText(oss.str(), "MenuItem", { 185, 44 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
 			++score;
 			--lastScored;
 		}

@@ -7,9 +7,7 @@
 
 struct Grid {
 	Grid(Position corner, int tileSize) : corner(corner),
-													  tileSize(tileSize),
-													  width(10),
-													  height(20) {
+													  tileSize(tileSize) {
 		for (auto& i : matrix)
 			i.fill(gridBlock::Empty);
 	}
@@ -20,14 +18,14 @@ struct Grid {
 		done.clear();
 	}
 
-	bool isEmpty(Position&& pos) const {
+	bool isEmpty(Position&& pos) const noexcept {
 		return matrix[pos.y][pos.x] == gridBlock::Empty;
 	}
 
 	const Position corner;
 	const int tileSize;
-	const int width;
-	const int height;
+	const int width = 10;
+	const int height = 20;
 	std::array<std::array<gridBlock, 10>, 20> matrix;
 	std::deque<std::array<gridBlock, 10>> done;
 };

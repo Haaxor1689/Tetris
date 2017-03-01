@@ -11,8 +11,8 @@ Tetromino::Tetromino(Grid& grid)
 }
 
 void Tetromino::input(const Event& event) {
-	if (event.type() == SDL_KEYDOWN) {
-		switch (event.key()) {
+	if (event.getType() == eventType::KeyDown) {
+		switch (event.getKey()) {
 		case SDLK_RIGHT:
 			if (nonCollision({ 1, 0 })) {
 				pivot.x++;
