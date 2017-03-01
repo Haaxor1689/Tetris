@@ -21,7 +21,7 @@ int main(int, char* []) {
 	} catch (const std::exception& Err) {
 		std::ofstream errorLog;
 		errorLog.open("errorLog.txt");
-		errorLog << "Error: " << Err.what();
+		errorLog << "Error: " << Err.what() << std::endl;
 		TTF_Quit();
 		IMG_Quit();
 		SDL_Quit();
