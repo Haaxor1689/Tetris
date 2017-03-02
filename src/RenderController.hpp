@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Enums.hpp"
-#include "Font.hpp"
+#include "Text.hpp"
 #include "Position.hpp"
 #include "Sprite.hpp"
 #include "Wrappers.hpp"
@@ -32,14 +32,14 @@ public:
 	}
 
 	void addFont(std::string name, std::string path, int size) {
-		fonts.insert(make_pair(name, Font(path, size)));
+		fonts.insert(make_pair(name, Text(path, size)));
 	}
 
 	void addSprite(std::string name, std::string path) {
 		sprites.insert(make_pair(name, Sprite(path, &renderer)));
 	}
 
-	SDL_Renderer* getRenderer() const {
+	SDL_Renderer* getRenderer() const noexcept {
 		return &renderer;
 	}
 
@@ -47,5 +47,5 @@ private:
 	Window window;
 	Renderer renderer;
 	std::map<std::string, Sprite> sprites;
-	std::map<std::string, Font> fonts;
+	std::map<std::string, Text> fonts;
 };

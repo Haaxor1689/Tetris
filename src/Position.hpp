@@ -9,6 +9,26 @@ struct Position {
 	Position& operator=(Position&& other) noexcept = default;
 	~Position() = default;
 
+	Position& operator+=(const Position& other) {
+		x += other.x;
+		y += other.y;
+		return *this;
+	}
+
+	friend Position operator+(const Position& lhs, const Position& rhs) {
+		return { lhs.x + rhs.x, lhs.y + rhs.y };
+	}
+
+	Position& operator-=(const Position& other) {
+		x -= other.x;
+		y -= other.y;
+		return *this;
+	}
+
+	friend Position operator-(const Position& lhs, const Position& rhs) {
+		return{ lhs.x - rhs.x, lhs.y - rhs.y };
+	}
+
 	int x = 0;
 	int y = 0;
 };

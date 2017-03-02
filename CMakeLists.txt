@@ -7,7 +7,9 @@ PROJECT(Tetris)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /nologo /wd4251 /wd4275" )
 
 # Set Debug and Release configurations for project
+SET(INSTRUCTIONS "Source folder should be in same folder as cmakelists." CACHE STRING "" FORCE)
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+MARK_AS_ADVANCED(CMAKE_INSTALL_PREFIX)
 
 # Set compilation output directory to bin
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)

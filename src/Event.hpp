@@ -15,6 +15,7 @@ public:
 	 */
 	bool poll() {
 		if (SDL_PollEvent(&event)) {
+			type = toEventType(event.type);
 			return true;
 		}
 		return false;
@@ -24,7 +25,7 @@ public:
 	 * \return Type of actual event.
 	 */
 	eventType getType() const {
-		return _type;
+		return type;
 	}
 
 	/**
@@ -33,7 +34,7 @@ public:
 	 * \return If event type is KeyDown/Up, returns keyboard key, or if event type is MouseButtonUp/Down returns mouse key.
 	 */
 	int getKey() const {
-		switch(_type) {
+		switch(type) {
 		case eventType::KeyDown:
 		case eventType::KeyUp:
 			return event.key.keysym.sym;
@@ -41,7 +42,7 @@ public:
 		case eventType::MouseButtonUp:
 			return event.button.button;
 		default:
-			throw std::logic_error("No key for " + toString(_type) + " event.");
+			throw std::logic_error("No key for " + toString(type) + " event.");
 		}
 	}
 
@@ -51,7 +52,7 @@ public:
 	 * \return State of current event, e.g. pressed or released
 	 */
 	int getState() const {
-		switch (_type) {
+		switch (type) {
 		case eventType::KeyDown:
 		case eventType::KeyUp:
 			return event.key.state;
@@ -59,7 +60,7 @@ public:
 		case eventType::MouseButtonUp:
 			return event.button.state;
 		default:
-			throw std::logic_error("No state for " + toString(_type) + " event.");
+			throw std::logic_error("No state for " + toString(type) + " event.");
 		}
 	}
 
@@ -69,17 +70,17 @@ public:
 	* \return Positon where current event happened.
 	*/
 	Position getPosition() const {
-		switch (_type) {
+		switch (type) {
 		case eventType::MouseButtonDown:
 		case eventType::MouseButtonUp:
 			return { event.button.x, event.button.y };
 		default:
-			throw std::logic_error("No position for " + toString(_type) + " event.");
+			throw std::logic_error("No position for " + toString(type) + " event.");
 		}
 		
 	}
 
 private:
-	eventType _type;
+	eventType type;
 	SDL_Event event;
 };

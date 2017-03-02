@@ -2,8 +2,7 @@
 #include <sstream>
 
 Engine::Engine() : grid({ 360, 12 }, 24),
-						 tetroFalling(grid),
-						 tetroWaiting(grid) {
+						 tetroFalling(grid) {
 	// Sprite loading
 	renderer.addSprite("Background", "resources/Background.png");
 	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
@@ -19,12 +18,10 @@ Engine::Engine() : grid({ 360, 12 }, 24),
 	renderer.addFont("Title", "resources/Bitmgothic.ttf", 60);
 	renderer.addFont("MenuItem", "resources/Bitmgothic.ttf", 20);
 	renderer.addFont("Text", "resources/Bitmgothic.ttf", 14);
-
-	// Randomize waiting tetormino
-	tetroWaiting.setType();
 }
 
 void Engine::run() {
+	srand(static_cast<unsigned>(time(nullptr)));
 	while (state != gameState::exit) {
 		Event event;
 		while (event.poll())
@@ -55,10 +52,9 @@ void Engine::input(const Event& event) {
 				score = 0;
 				lastScored = 0;
 				grid.reset();
-				tetroFalling.setType();
+				tetroFalling.nextType();
 				tetroFalling.resetPosition();
 				tetroFalling.setGround();
-				tetroWaiting.setType();
 				tetroFalling.setStepSpeed(0.5f);
 				break;
 			case SDLK_c:
@@ -113,7 +109,6 @@ void Engine::step() {
 	switch (state) {
 	case gameState::play:
 		tetroFalling.step();
-		tetroWaiting.step();
 
 		if (tetroFalling.getState() == tetroState::Disabled) {
 			multiplier = 1;
@@ -136,8 +131,7 @@ void Engine::step() {
 			lastScored += tetroFalling.getWorth();
 
 			tetroFalling.setState(tetroState::Falling);
-			tetroFalling.setType(tetroWaiting.getType());
-			tetroWaiting.setType();
+			tetroFalling.nextType();
 			if (!tetroFalling.resetPosition()) {
 				state = gameState::gameover;
 				score += lastScored;
@@ -195,7 +189,6 @@ void Engine::draw() {
 				*/ 
 
 		tetroFalling.draw(renderer);
-		tetroWaiting.draw(renderer);
 		break;
 	case gameState::gameover:
 		renderer.drawText("Game Over", "Title", { 480, 120 });

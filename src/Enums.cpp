@@ -1,4 +1,3 @@
-#include <SDL/SDL.h>
 #include "Enums.hpp"
 
 gridBlock toGridBlock(tetroType value) {
@@ -24,7 +23,7 @@ gridBlock toGridBlock(tetroType value) {
 	}
 }
 
-eventType toEnumType(int value) {
+eventType toEventType(Uint32 value) {
 	switch (value) {
 	case SDL_KEYDOWN:
 		return eventType::KeyDown;
@@ -40,6 +39,27 @@ eventType toEnumType(int value) {
 		return eventType::Quit;
 	default:
 		return eventType::Unused;
+	}
+}
+
+std::array<Position, 4> toArray(tetroType value) {
+	switch (value) {
+	case tetroType::I:
+		return { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 2, 0 } } };
+	case tetroType::O:
+		return { { { 0, 0 },{ 1, 1 },{ 1, 0 },{ 0, 1 } } };
+	case tetroType::T:
+		return { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 0, 1 } } };
+	case tetroType::J:
+		return { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ 1, 1 } } };
+	case tetroType::L:
+		return { { { 0, 0 },{ -1, 0 },{ 1, 0 },{ -1, 1 } } };
+	case tetroType::S:
+		return { { { 0, 0 },{ -1, 1 },{ 1, 0 },{ 0, 1 } } };
+	case tetroType::Z:
+		return { { { 0, 0 },{ -1, 0 },{ 1, 1 },{ 0, 1 } } };
+	default:
+		return { { { 0, 0 },{ 0, 0 },{ 0, 0 },{ 0, 0 } } };
 	}
 }
 

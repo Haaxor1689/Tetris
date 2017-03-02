@@ -10,40 +10,40 @@ using Timer = std::chrono::high_resolution_clock::time_point;
 
 class Tetromino {
 public:
-	explicit Tetromino(Grid& grid);
+	Tetromino(Grid& grid);
 
 	void input(const Event& event);
 	void step();
 	void draw(RenderController& renderer);
 
-	void setState(tetroState newState);
-	tetroState getState() const;
+	tetroType getType() const { return type; }
+	tetroState getState() const { return state; };
+	int getWorth() const { return worth; };
 
-	void setType();
-	void setType(tetroType newType);
-	tetroType getType() const;
+	void setState(tetroState newState) { state = newState; }
+	void setStepSpeed(float speed) { stepSpeed = speed; }
+	
+	void nextType();
 
-	void setStepSpeed(float speed);
+	bool resetPosition() noexcept;
 
-	int getWorth() const;
-	bool resetPosition();
+	bool nonCollision(Position newPos) const noexcept;
 
-	bool nonCollision(Position newPos) const;
-
-	bool rotateLeft();
-	bool rotateRight();
-	void setGround();
-	void drop();
+	bool rotate(bool left);
+	void setGround() noexcept;
+	void drop() { pivot = ground; }
 
 private:
 	Grid& grid;
 	Position pivot;
 	Position ground;
 	tetroType type;
+	tetroType next;
 	tetroState state;
 	int worth;
 	float stepSpeed;
 
 	std::array<Position, 4> blocks;
+	std::array<Position, 4> nextBlocks;
 	Timer alarm;
 };

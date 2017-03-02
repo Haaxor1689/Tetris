@@ -6,26 +6,29 @@
 #include <SDL/SDL_ttf.h>
 #include <stdexcept>
 
-class Font {
+class Text {
 public:
 	/**
 	 * \brief Creates an instance of font from path to font file with given size
 	 * \throw std::runtime_error if font fails to be created.
 	 */
-	Font(std::string path, int size) {
+	Text(std::string path, int size) {
 		font = TTF_OpenFont(path.c_str(), size);
-		if (!font)
-			throw std::runtime_error(SDL_GetError());
 	}
 
-	Font(const Font& other) = delete;
-	Font& operator=(const Font& other) = delete;
-	Font(Font&& other) noexcept = default;
-	Font& operator=(Font&& other) noexcept = default;
+	Text(const Text& other) = delete;
+	Text& operator=(const Text& other) = delete;
 
-	~Font() {
-		if(!font)
-			TTF_CloseFont(font);
+	Text(Text&& other) noexcept {
+		rectangle = other.rectangle;
+		font = std::move(other.font);
+	}
+
+	Text& operator=(Text&& other) noexcept {
+		rectangle = other.rectangle;
+		font = std::move(other.font);
+
+		return *this;
 	}
 
 	/**
@@ -38,11 +41,10 @@ public:
 	 * \param color color of text in format { r, g, b, a }.
 	 * \throw std::runtime_error if call to SDL_RenderCopy fails.
 	 */
-	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) const {
-		Surface surface = TTF_RenderText_Solid(font, text.c_str(), color);
+	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
+		Surface surface = TTF_RenderText_Solid(&font, text.c_str(), color);
 		Texture texture = SDL_CreateTextureFromSurface(renderer, &surface);
-
-		SDL_Rect rectangle;
+		
 		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 		rectangle.x = x;
 		rectangle.y = y;
@@ -76,5 +78,6 @@ public:
 	}
 
 private:
-	TTF_Font* font;
+	SDL_Rect rectangle;
+	Font font;
 };

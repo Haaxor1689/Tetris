@@ -1,5 +1,8 @@
 #pragma once
+#include <array>
+#include <SDL/SDL.h>
 #include <string>
+#include "Position.hpp"
 
 /**
  * \brief Holds information about current game state.
@@ -48,7 +51,8 @@ enum class eventType {
 };
 
 gridBlock toGridBlock(tetroType value);
-eventType toEnumType(int value);
+eventType toEventType(Uint32 value);
+std::array<Position, 4> toArray(tetroType);
 
 std::string toString(tetroType value);
 std::string toString(gridBlock value);
