@@ -3,9 +3,20 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
+#include <stdexcept>
+#include <typeinfo>
+
 template <typename Type>
 class Wrapper {
 public:
+
+	static_assert(typeid(Type) == typeid(SDL_Window) ||
+				  typeid(Type) == typeid(SDL_Renderer) ||
+				  typeid(Type) == typeid(SDL_Surface) ||
+				  typeid(Type) == typeid(SDL_Texture) ||
+				  typeid(Type) == typeid(TTF_Font)
+	);
+
 	Wrapper() : ptr(nullptr) {}
 
 	Wrapper(Type* window) : ptr(window) {
@@ -62,9 +73,3 @@ inline void free(TTF_Font* ptr) {
 	if (!ptr)
 		TTF_CloseFont(ptr);
 }
-
-using Window = Wrapper<SDL_Window>;
-using Renderer = Wrapper<SDL_Renderer>;
-using Surface = Wrapper<SDL_Surface>;
-using Texture = Wrapper<SDL_Texture>;
-using Font = Wrapper<TTF_Font>;
