@@ -42,8 +42,8 @@ public:
 	 * \throw std::runtime_error if call to SDL_RenderCopy fails.
 	 */
 	void draw(SDL_Renderer* renderer, std::string text, int x, int y, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
-		Surface surface = TTF_RenderText_Solid(&font, text.c_str(), color);
-		Texture texture = SDL_CreateTextureFromSurface(renderer, &surface);
+		surface = TTF_RenderText_Solid(&font, text.c_str(), color);
+		texture = SDL_CreateTextureFromSurface(renderer, &surface);
 		
 		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 		rectangle.x = x;
@@ -79,5 +79,7 @@ public:
 
 private:
 	SDL_Rect rectangle;
+	Surface surface;
+	Texture texture;
 	Font font;
 };
