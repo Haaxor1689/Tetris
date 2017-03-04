@@ -48,7 +48,7 @@ TARGET_LINK_LIBRARIES(Tetris debug ${LIBS} optimized ${LIBS})
 # Set working directory for debugger in Visual Studio
 SET_TARGET_PROPERTIES(Tetris PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/Debug")
 
-ELSEIF(Clang)
+ELSE(MSVC)
 ###################################################
 ####                   Clang                   ####
 ###################################################
@@ -57,12 +57,11 @@ SET(COMPILER "Clang" CACHE STRING "" FORCE)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14" )
 
 # Set compilation output directory to bin
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+#SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # Copying of resources to outpud directories
-FILE(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/src/resources/*.png ${CMAKE_SOURCE_DIR}/src/resources/*.ttf)
-FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/resources)
-FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/resources)
+#FILE(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/src/resources/*.png ${CMAKE_SOURCE_DIR}/src/resources/*.ttf)
+#FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources)
 
 # Project sources
 FILE(GLOB SOURCES src/*.hpp src/*.cpp)
