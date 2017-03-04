@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <string>
 #include "Position.hpp"
 

@@ -5,7 +5,7 @@
 #include "Position.hpp"
 #include "Sprite.hpp"
 #include "Wrappers.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <map>
 #include <stdexcept>
 
