@@ -7,7 +7,11 @@
 class Sprite {
 public:
 	Sprite(std::string path, SDL_Renderer* renderer) {
-		texture = IMG_LoadTexture(renderer, path.c_str());
+		try {
+			texture = IMG_LoadTexture(renderer, path.c_str());
+		} catch (const std::exception& err) {
+			throw std::runtime_error("Coudln't load " + path + "\n" + err.what());
+		}
 		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 	}
 
