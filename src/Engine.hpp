@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Button.hpp"
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
@@ -26,7 +27,9 @@ private:
 	RenderController renderer;
 
 	Grid grid; // hold all the information about playing grid
-	Tetromino tetroFalling; // holds all the information about tetronimos
+	Tetromino tetromino; // holds all the information about tetronimos
+
+	std::map<std::string, Button> buttons;
 
 	unsigned score = 0;
 	unsigned lastScored = 0;

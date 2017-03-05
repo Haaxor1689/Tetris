@@ -27,20 +27,20 @@ enum class tetroType {
 };
 
 enum class tetroState {
-	Disabled, Falling, Waiting
+	Disabled, Falling
 };
 
 /**
  * \brief Sets horizontal align of text. 
  */
-enum class textHAlign {
+enum class horizontalAlign {
 	Left, Middle, Right
 };
 
 /**
  * \brief Sets vertical align of text.
  */
-enum class textVAlign {
+enum class verticalAlign {
 	Top, Middle, Bottom
 };
 

@@ -2,7 +2,7 @@
 #include <sstream>
 
 Engine::Engine() : grid({ 360, 12 }, 24),
-						 tetroFalling(grid) {
+						 tetromino(grid) {
 	// Sprite loading
 	renderer.addSprite("Background", "resources/Background.png");
 	renderer.addSprite("EmptyBlock", "resources/EmptyBlock.png");
@@ -18,6 +18,17 @@ Engine::Engine() : grid({ 360, 12 }, 24),
 	renderer.addFont("Title", "resources/Bitmgothic.ttf", 60);
 	renderer.addFont("MenuItem", "resources/Bitmgothic.ttf", 20);
 	renderer.addFont("Text", "resources/Bitmgothic.ttf", 14);
+
+	buttons.insert(std::make_pair("New Game", Button({ 480, 300 }, 100, 30, "New Game (N)", "MenuItem",  "_None", [&](){ state = gameState::play;
+	score = 0;
+	lastScored = 0;
+	grid.reset();
+	tetromino.nextType();
+	tetromino.resetPosition();
+	tetromino.setGround();
+	tetromino.setStepSpeed(0.5f); }, SDLK_n)));
+	buttons.insert(std::make_pair("Continue", Button({ 480, 340 }, 100, 30, "Continue (C)", "MenuItem",  "_None", [&]() { state = gameState::play; }, SDLK_c)));
+	buttons.insert(std::make_pair("Quit", Button({ 480, 380 }, 100, 30, "Quit (Esc)", "MenuItem",  "_None", [&]() { state = gameState::exit; }, SDLK_ESCAPE)));
 }
 
 void Engine::run() {
@@ -39,43 +50,14 @@ void Engine::input(const Event& event) {
 
 	switch (state) {
 	case gameState::intro:
-		if (event.getType() == eventType::KeyDown) {
-			state = gameState::menu;
-		} else if (event.getType() == eventType::MouseButtonUp)
+		if (event.getType() == eventType::KeyDown || event.getType() == eventType::MouseButtonUp) 
 			state = gameState::menu;
 		break;
 	case gameState::menu:
-		if (event.getType() == eventType::KeyDown) {
-			switch (event.getKey()) {
-			case SDLK_n:
-				state = gameState::play;
-				score = 0;
-				lastScored = 0;
-				grid.reset();
-				tetroFalling.nextType();
-				tetroFalling.resetPosition();
-				tetroFalling.setGround();
-				tetroFalling.setStepSpeed(0.5f);
-				break;
-			case SDLK_c:
-				state = gameState::play;
-				break;
-			case SDLK_ESCAPE:
-				state = gameState::exit;
-				break;
-			default:
-				break;
-			}
-		} else if (event.getType() == eventType::MouseButtonUp) {
-			if (event.getPosition().x > 400 && 
-				 event.getPosition().x < 560 && 
-				 event.getPosition().y > 340 &&
-				 event.getPosition().y < 420)
-				state = gameState::exit;
-		}
-		break;
+		for (auto& i : buttons)
+			i.second.input(event);
 	case gameState::play:
-		tetroFalling.input(event);
+		tetromino.input(event);
 
 		if (event.getType() == eventType::KeyDown) {
 			switch (event.getKey()) {
@@ -93,7 +75,7 @@ void Engine::input(const Event& event) {
 			case SDLK_ESCAPE:
 				state = gameState::menu;
 				score = 0;
-				tetroFalling.setStepSpeed(0.5f);
+				tetromino.setStepSpeed(0.5f);
 				break;
 			default:
 				break;
@@ -108,9 +90,9 @@ void Engine::step() {
 	bool rowDone;
 	switch (state) {
 	case gameState::play:
-		tetroFalling.step();
+		tetromino.step();
 
-		if (tetroFalling.getState() == tetroState::Disabled) {
+		if (tetromino.getState() == tetroState::Disabled) {
 			multiplier = 1;
 			for (int j = grid.matrix.size() - 1; j >= 0; --j) {
 				rowDone = true;
@@ -128,11 +110,11 @@ void Engine::step() {
 					++j;
 				}
 			}
-			lastScored += tetroFalling.getWorth();
+			lastScored += tetromino.getWorth();
 
-			tetroFalling.setState(tetroState::Falling);
-			tetroFalling.nextType();
-			if (!tetroFalling.resetPosition()) {
+			tetromino.setState(tetroState::Falling);
+			tetromino.nextType();
+			if (!tetromino.resetPosition()) {
 				state = gameState::gameover;
 				score += lastScored;
 				lastScored = 0;
@@ -155,25 +137,24 @@ void Engine::draw() {
 		renderer.drawText("Press any key to start", "MenuItem", { 480, 450 });
 		break;
 	case gameState::menu:
+		for (auto& i : buttons)
+			i.second.draw(renderer);
 		renderer.drawText("Tetris", "Title", { 480, 120 });
-		renderer.drawText("New Game (N)", "MenuItem", { 480, 300 });
-		renderer.drawText("Continue (C)", "MenuItem", { 480, 340 });
-		renderer.drawText("Quit (Esc)", "MenuItem", { 480, 380 });
-		renderer.drawText("Controlls:", "MenuItem", { 140, 390 }, { 255, 255, 255, 255 }, textHAlign::Left);
-		renderer.drawText("Movement - Arrows", "Text", { 140, 415 }, { 255, 255, 255, 255 }, textHAlign::Left);
-		renderer.drawText("Drop - Space", "Text", { 140, 430 }, { 255, 255, 255, 255 }, textHAlign::Left);
-		renderer.drawText("Rotate - X/C", "Text", { 140, 445 }, { 255, 255, 255, 255 }, textHAlign::Left);
-		renderer.drawText("Pause - Esc", "Text", { 140, 460 }, { 255, 255, 255, 255 }, textHAlign::Left);
+		renderer.drawText("Controlls:", "MenuItem", { 140, 390 }, horizontalAlign::Left);
+		renderer.drawText("Movement - Arrows", "Text", { 140, 415 }, horizontalAlign::Left);
+		renderer.drawText("Drop - Space", "Text", { 140, 430 }, horizontalAlign::Left);
+		renderer.drawText("Rotate - X/C", "Text", { 140, 445 }, horizontalAlign::Left);
+		renderer.drawText("Pause - Esc", "Text", { 140, 460 }, horizontalAlign::Left);
 		break;
 	case gameState::play:
 		oss << "Score: " << score;
-		renderer.drawText(oss.str(), "MenuItem", { 140, 20 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
-		renderer.drawText("Next:", "MenuItem", { 640, 20 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
+		renderer.drawText(oss.str(), "MenuItem", { 140, 20 }, horizontalAlign::Left, verticalAlign::Top);
+		renderer.drawText("Next:", "MenuItem", { 640, 20 }, horizontalAlign::Left, verticalAlign::Top);
 
 		if (lastScored != 0) {
 			oss.str(std::string());
 			oss << "+ " << lastScored;
-			renderer.drawText(oss.str(), "MenuItem", { 185, 44 }, { 255, 255, 255, 255 }, textHAlign::Left, textVAlign::Top);
+			renderer.drawText(oss.str(), "MenuItem", { 185, 44 }, horizontalAlign::Left, verticalAlign::Top);
 			++score;
 			--lastScored;
 		}
@@ -188,7 +169,7 @@ void Engine::draw() {
 				renderer.drawSprite(toString(grid.done[j][i]), { grid.corner.x + 264 + static_cast<int>(i) * grid.tileSize, grid.corner.y + 480 - static_cast<int>(grid.done.size()) * grid.tileSize + static_cast<int>(j) * grid.tileSize });
 				*/ 
 
-		tetroFalling.draw(renderer);
+		tetromino.draw(renderer);
 		break;
 	case gameState::gameover:
 		renderer.drawText("Game Over", "Title", { 480, 120 });

@@ -10,7 +10,7 @@ public:
 		try {
 			texture = IMG_LoadTexture(renderer, path.c_str());
 		} catch (const std::exception& err) {
-			throw std::runtime_error("Coudln't load " + path + "\n" + err.what());
+			throw std::runtime_error("Error while loading " + path + ": " + err.what());
 		}
 		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 	}
@@ -46,6 +46,14 @@ public:
 		if (alpha != 255)
 			if (SDL_SetTextureAlphaMod(&texture, 255))
 				throw std::runtime_error(SDL_GetError());
+	}
+
+	int getWidth() const noexcept {
+		return rectangle.w;
+	}
+
+	int getHeight() const noexcept {
+		return rectangle.h;
 	}
 
 private:

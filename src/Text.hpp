@@ -42,26 +42,26 @@ public:
 	 * \param color color of text in format { r, g, b, a }.
 	 * \throw std::runtime_error if call to SDL_RenderCopy fails.
 	 */
-	void draw(SDL_Renderer* renderer, std::string text, Position pos, textHAlign hAlign, textVAlign vAlign, SDL_Color& color) {
+	void draw(SDL_Renderer* renderer, std::string text, Position pos, horizontalAlign hAlign, verticalAlign vAlign) {
 		FC_AlignEnum align = FC_ALIGN_RIGHT;
 		switch (hAlign) {
-		case textHAlign::Left:
+		case horizontalAlign::Left:
 			align = FC_ALIGN_LEFT;
 			break;
-		case textHAlign::Middle:
+		case horizontalAlign::Middle:
 			align = FC_ALIGN_CENTER;
 			break;
-		case textHAlign::Right:
+		case horizontalAlign::Right:
 			break;
 		}
 
 		switch (vAlign) {
-		case textVAlign::Top:
+		case verticalAlign::Top:
 			pos.y -= FC_GetLineHeight(&font) / 2;
 			break;
-		case textVAlign::Middle:
+		case verticalAlign::Middle:
 			break;
-		case textVAlign::Bottom:
+		case verticalAlign::Bottom:
 			pos.y += FC_GetLineHeight(&font) / 2;
 			break;
 		}

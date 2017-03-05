@@ -29,6 +29,10 @@ struct Position {
 		return{ lhs.x - rhs.x, lhs.y - rhs.y };
 	}
 
+	bool isInside(const SDL_Rect& rectangle) const noexcept{
+		return x >= rectangle.x && y >= rectangle.y && x <= rectangle.x + rectangle.w && y <= rectangle.y + rectangle.h;
+	}
+
 	int x = 0;
 	int y = 0;
 };

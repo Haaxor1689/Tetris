@@ -11,6 +11,9 @@
 
 class RenderController {
 public:
+	using SpriteMap = std::map<std::string, Sprite>;
+	using FontMap = std::map<std::string, Text>;
+
 	RenderController() {
 		window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540, 0);
 		renderer = SDL_CreateRenderer(&window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -19,13 +22,12 @@ public:
 	void drawText(std::string text,
 					  std::string font,
 					  Position pos,
-					  SDL_Color color = { 255, 255, 255, 255 },
-					  textHAlign hAlign = textHAlign::Middle,
-					  textVAlign vAlign = textVAlign::Middle) {
+					  horizontalAlign hAlign = horizontalAlign::Middle,
+					  verticalAlign vAlign = verticalAlign::Middle) {
 		auto it = fonts.find(font);
 		if (it == fonts.end())
 			throw std::logic_error("No font with name " + font + " was loaded.");
-		it->second.draw(&renderer, text, pos, hAlign, vAlign, color);
+		it->second.draw(&renderer, text, pos, hAlign, vAlign);
 	}
 
 	void drawSprite(std::string texture,
@@ -52,6 +54,6 @@ public:
 private:
 	Window window;
 	Renderer renderer;
-	std::map<std::string, Sprite> sprites;
-	std::map<std::string, Text> fonts;
+	SpriteMap sprites;
+	FontMap fonts;
 };
