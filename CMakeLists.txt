@@ -12,7 +12,6 @@ IF(MSVC)
 ####               Visual Studio               ####
 ###################################################
 # Compilation options
-SET(COMPILER "MSVC" CACHE STRING "" FORCE)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /nologo /wd4251 /wd4275" )
 
 # Set Debug and Release configurations for project
@@ -28,7 +27,7 @@ FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/res
 FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/resources)
 
 # Project sources
-FILE(GLOB SOURCES src/*.hpp src/*.cpp)
+FILE(GLOB SOURCES src/*.hpp src/*.cpp libs/inc/SDL_FontCache.c)
 
 # Copying of Dlls to output directories
 FILE(COPY ${CMAKE_SOURCE_DIR}/libs/dll/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
@@ -53,7 +52,6 @@ ELSE(MSVC)
 ####                   Clang                   ####
 ###################################################
 # Compilation options
-SET(COMPILER "Clang" CACHE STRING "" FORCE)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14" )
 
 # Set compilation output directory to bin
@@ -64,7 +62,7 @@ FILE(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/src/resources/*.png ${CMAKE_SOURCE_DIR}/
 FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources)
 
 # Project sources
-FILE(GLOB SOURCES src/*.hpp src/*.cpp)
+FILE(GLOB SOURCES src/*.hpp src/*.cpp libs/inc/SDL_FontCache.c)
 
 FIND_PACKAGE(SDL2 REQUIRED)
 STRING(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)

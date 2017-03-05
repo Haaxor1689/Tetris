@@ -22,17 +22,23 @@ public:
 					  SDL_Color color = { 255, 255, 255, 255 },
 					  textHAlign hAlign = textHAlign::Middle,
 					  textVAlign vAlign = textVAlign::Middle) {
-		fonts.find(font)->second.draw(&renderer, text, pos.x, pos.y, hAlign, vAlign, color);
+		auto it = fonts.find(font);
+		if (it == fonts.end())
+			throw std::logic_error("No font with name " + font + " was loaded.");
+		it->second.draw(&renderer, text, pos, hAlign, vAlign, color);
 	}
 
 	void drawSprite(std::string texture,
 						 Position pos,
 						 int alpha = 255) {
-		sprites.find(texture)->second.draw(&renderer, pos.x, pos.y, alpha);
+		auto it = sprites.find(texture);
+		if (it == sprites.end())
+			throw std::logic_error("No texture with name " + texture + " was loaded.");
+		it->second.draw(&renderer, pos, alpha);
 	}
 
-	void addFont(std::string name, std::string path, int size) {
-		fonts.insert(make_pair(name, Text(path, size)));
+	void addFont(std::string name, std::string path, int size, SDL_Color color = { 255, 255, 255, 255 }) {
+		fonts.insert(make_pair(name, Text(&renderer, path, size, color)));
 	}
 
 	void addSprite(std::string name, std::string path) {

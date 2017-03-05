@@ -7,10 +7,7 @@
 class Sprite {
 public:
 	Sprite(std::string path, SDL_Renderer* renderer) {
-		Surface loadedImage = IMG_Load(path.c_str());
-
-		texture = SDL_CreateTextureFromSurface(renderer, &loadedImage);
-
+		texture = IMG_LoadTexture(renderer, path.c_str());
 		SDL_QueryTexture(&texture, nullptr, nullptr, &rectangle.w, &rectangle.h);
 	}
 
@@ -31,9 +28,9 @@ public:
 
 	~Sprite() = default;
 
-	void draw(SDL_Renderer* renderer, int x, int y, int alpha = 255) {
-		rectangle.x = x;
-		rectangle.y = y;
+	void draw(SDL_Renderer* renderer, Position pos, int alpha = 255) {
+		rectangle.x = pos.x;
+		rectangle.y = pos.y;
 
 		if (alpha != 255)
 			if (SDL_SetTextureAlphaMod(&texture, alpha))
