@@ -16,8 +16,8 @@ Engine::Engine() : grid({ 360, 12 }, 24),
 
 	// Font loading
 	renderer.addFont("Title", "resources/Bitmgothic.ttf", 60);
-	renderer.addFont("MenuItem", "resources/Bitmgothic.ttf", 20);
-	renderer.addFont("Text", "resources/Bitmgothic.ttf", 14);
+	renderer.addFont("MenuItem", "resources/8BitSnobbery.ttf", 24);
+	renderer.addFont("Text", "resources/8BitSnobbery.ttf", 12);
 
 	buttons.insert(std::make_pair("New Game", Button({ 480, 300 }, 100, 30, "New Game (N)", "MenuItem",  "_None", [&](){ state = gameState::play;
 	score = 0;
@@ -28,7 +28,7 @@ Engine::Engine() : grid({ 360, 12 }, 24),
 	tetromino.setGround();
 	tetromino.setStepSpeed(0.5f); }, SDLK_n)));
 	buttons.insert(std::make_pair("Continue", Button({ 480, 340 }, 100, 30, "Continue (C)", "MenuItem",  "_None", [&]() { state = gameState::play; }, SDLK_c)));
-	buttons.insert(std::make_pair("Quit", Button({ 480, 380 }, 100, 30, "Quit (Esc)", "MenuItem",  "_None", [&]() { state = gameState::exit; }, SDLK_ESCAPE)));
+	buttons.insert(std::make_pair("Quit", Button({ 480, 380 }, 100, 30, "Quit (Q)", "MenuItem",  "_None", [&]() { state = gameState::exit; }, SDLK_q)));
 }
 
 void Engine::run() {
@@ -163,11 +163,11 @@ void Engine::draw() {
 			for (unsigned i = 0; i < grid.matrix[j].size(); ++i)
 				renderer.drawSprite(toString(grid.matrix[j][i]), { grid.corner.x + static_cast<int>(i) * grid.tileSize, grid.corner.y + static_cast<int>(j) * grid.tileSize });
 
-		/*
+		
 		for (unsigned j = 0; j < grid.done.size(); ++j)
 			for (unsigned i = 0; i < grid.done[j].size(); ++i)
 				renderer.drawSprite(toString(grid.done[j][i]), { grid.corner.x + 264 + static_cast<int>(i) * grid.tileSize, grid.corner.y + 480 - static_cast<int>(grid.done.size()) * grid.tileSize + static_cast<int>(j) * grid.tileSize });
-				*/ 
+				
 
 		tetromino.draw(renderer);
 		break;
