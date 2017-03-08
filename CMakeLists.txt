@@ -1,22 +1,19 @@
-IF(MSVC) # CMake 3.8 requiered for VS_DEBUGGER_WORKING_DIRECTORY command
+# CMake 3.8 requiered for VS_DEBUGGER_WORKING_DIRECTORY command
 CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
-ELSE(MSVC)
-CMAKE_MINIMUM_REQUIRED(VERSION 3.6)
-ENDIF(MSVC)
 
 # Project name
 PROJECT(Tetris)
 
-IF(MSVC)
-###################################################
-####               Visual Studio               ####
-###################################################
 # Compilation options
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /nologo /wd4251 /wd4275" )
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} /nologo /Wall /GL /Gw" )
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} /nologo /Wall" )
 
 # Set Debug and Release configurations for project
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 MARK_AS_ADVANCED(CMAKE_INSTALL_PREFIX)
+
+# Project sources
+FILE(GLOB SOURCES src/*.hpp src/*.cpp)
 
 # Set compilation output directory to bin
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -25,9 +22,6 @@ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 FILE(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/src/resources/*.png ${CMAKE_SOURCE_DIR}/src/resources/*.ttf)
 FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/resources)
 FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/resources)
-
-# Project sources
-FILE(GLOB SOURCES src/*.hpp src/*.cpp libs/inc/SDL_FontCache.c)
 
 # Copying of Dlls to output directories
 FILE(COPY ${CMAKE_SOURCE_DIR}/libs/dll/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
@@ -38,40 +32,12 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/libs/inc/)
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/libs/lib/)
 
 # Libraries list
-SET(LIBS SDL2 SDL2_image SDL2_mixer SDL2_ttf SDL2main SDL2test)
+SET(LIBS SDL2 SDL2_image SDL2_mixer SDL2_ttf SDL2_FontCache SDL2main SDL2test)
 
 # Project executable
 ADD_EXECUTABLE(Tetris ${SOURCES})
 TARGET_LINK_LIBRARIES(Tetris debug ${LIBS} optimized ${LIBS})
 
-# Set working directory for debugger in Visual Studio
+# Set Visual Studio specific settings
 SET_TARGET_PROPERTIES(Tetris PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/Debug")
-
-ELSE(MSVC)
-###################################################
-####                   Clang                   ####
-###################################################
-# Compilation options
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14" )
-
-# Set compilation output directory to bin
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-# Copying of resources to outpud directories
-FILE(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/src/resources/*.png ${CMAKE_SOURCE_DIR}/src/resources/*.ttf)
-FILE(COPY ${RESOURCES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources)
-
-# Project sources
-FILE(GLOB SOURCES src/*.hpp src/*.cpp libs/inc/SDL_FontCache.c)
-
-FIND_PACKAGE(SDL2 REQUIRED)
-STRING(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-
-# Include directories
-INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
-
-# Project executable
-ADD_EXECUTABLE(Tetris ${SOURCES})
-TARGET_LINK_LIBRARIES(Tetris ${SDL2_LIBRARIES} SDL2_ttf SDL2_image SDL2_mixer)
-
-ENDIF(MSVC)
+SET_PROPERTY(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Tetris)
