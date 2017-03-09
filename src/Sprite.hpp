@@ -32,7 +32,7 @@ public:
 
 	~Sprite() = default;
 
-	void draw(SDL_Renderer* renderer, Position pos, int alpha = 255) {
+	void draw(SDL_Renderer* renderer, Position pos, Uint8 alpha = 255) {
 		rectangle.x = pos.x;
 		rectangle.y = pos.y;
 

@@ -32,7 +32,7 @@ public:
 
 	void drawSprite(std::string texture,
 						 Position pos,
-						 int alpha = 255) {
+						 Uint8 alpha = 255) {
 		auto it = sprites.find(texture);
 		if (it == sprites.end())
 			throw std::logic_error("No texture with name " + texture + " was loaded.");

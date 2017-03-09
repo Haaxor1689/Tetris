@@ -5,15 +5,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 PROJECT(Tetris)
 
 # Compilation options
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} /nologo /Wall /GL /Gw" )
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} /nologo /Wall" )
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} /nologo /W4 /GL /Gw" )
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} /nologo /W4" )
 
 # Set Debug and Release configurations for project
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 MARK_AS_ADVANCED(CMAKE_INSTALL_PREFIX)
 
 # Project sources
-FILE(GLOB SOURCES src/*.hpp src/*.cpp)
+FILE(GLOB SOURCES src/*.cpp src/*.hpp)
 
 # Set compilation output directory to bin
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -41,3 +41,4 @@ TARGET_LINK_LIBRARIES(Tetris debug ${LIBS} optimized ${LIBS})
 # Set Visual Studio specific settings
 SET_TARGET_PROPERTIES(Tetris PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/Debug")
 SET_PROPERTY(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Tetris)
+
