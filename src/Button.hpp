@@ -5,6 +5,8 @@
 #include "RenderController.hpp"
 #include <functional>
 
+class Engine;
+
 class Button {
 public:
 	Button(Position pos,

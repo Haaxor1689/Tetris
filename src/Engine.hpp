@@ -23,6 +23,8 @@ public:
 	// Game rendering
 	void draw();
 private:
+	void bNewGame();
+
 	gameState state = gameState::intro;
 	RenderController renderer;
 

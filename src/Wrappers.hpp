@@ -43,33 +43,16 @@ class _WrapperAccesor {
 		~Wrapper() { free(ptr); }
 
 	private:
-		static void free(SDL_Window* ptr) {
-			if (!ptr)
-				SDL_DestroyWindow(ptr);
-		}
-
-		static void free(SDL_Renderer* ptr) {
-			if (!ptr)
-				SDL_DestroyRenderer(ptr);
-		}
-
-		static void free(SDL_Surface* ptr) {
-			if (!ptr)
-				SDL_FreeSurface(ptr);
-		}
-
-		static void free(SDL_Texture* ptr) {
-			if (!ptr)
-				SDL_DestroyTexture(ptr);
-		}
-
-		static void free(FC_Font* ptr) {
-			if (!ptr)
-				FC_FreeFont(ptr);
-		}
+		static void free(SDL_Window* ptr) { if (!ptr) SDL_DestroyWindow(ptr); }
+		static void free(SDL_Renderer* ptr) { if (!ptr) SDL_DestroyRenderer(ptr); }
+		static void free(SDL_Surface* ptr) { if (!ptr) SDL_FreeSurface(ptr); }
+		static void free(SDL_Texture* ptr) { if (!ptr) SDL_DestroyTexture(ptr); }
+		static void free(FC_Font* ptr) { if (!ptr) FC_FreeFont(ptr); }
 
 		Type* ptr = nullptr;
 	};
+
+	
 
 public:
 	// Type aliases to be used instead of templated class name
