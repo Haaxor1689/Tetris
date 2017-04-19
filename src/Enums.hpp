@@ -8,7 +8,7 @@
 /**
  * \brief Holds information about current game state.
  */
-enum class gameState {
+enum class gameState : uint8_t {
 	exit, intro, menu, play, gameover
 };
 

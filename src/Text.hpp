@@ -35,11 +35,9 @@ public:
 	/**
 	 * \param renderer reference to renderer which should renderering target.
 	 * \param text text string to be drawn.
-	 * \param x x coordinate of textbox's pivot.
-	 * \param y y coordinate of textbox's pivot.
+	 * \param pos position of textbos's pivot
 	 * \param hAlign vertical alignment of text.
 	 * \param vAlign horizontal alignment of text.
-	 * \param color color of text in format { r, g, b, a }.
 	 * \throw std::runtime_error if call to SDL_RenderCopy fails.
 	 */
 	void draw(SDL_Renderer* renderer, std::string text, Position pos, horizontalAlign hAlign, verticalAlign vAlign) {

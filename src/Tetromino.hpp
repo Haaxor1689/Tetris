@@ -3,6 +3,7 @@
 #include "Enums.hpp"
 #include "Event.hpp"
 #include "Grid.hpp"
+#include "Random.hpp"
 #include "RenderController.hpp"
 #include <chrono>
 

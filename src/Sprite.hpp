@@ -48,6 +48,19 @@ public:
 				throw std::runtime_error(SDL_GetError());
 	}
 
+	void draw(SDL_Renderer* renderer, SDL_Rect& bBox, Uint8 alpha = 255) {
+		if (alpha != 255)
+			if (SDL_SetTextureAlphaMod(&texture, alpha))
+				throw std::runtime_error(SDL_GetError());
+
+		if (SDL_RenderCopy(renderer, &texture, nullptr, &bBox))
+			throw std::runtime_error(SDL_GetError());
+
+		if (alpha != 255)
+			if (SDL_SetTextureAlphaMod(&texture, 255))
+				throw std::runtime_error(SDL_GetError());
+	}
+
 	int getWidth() const noexcept {
 		return rectangle.w;
 	}

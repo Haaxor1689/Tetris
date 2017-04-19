@@ -20,9 +20,23 @@ public:
 	}
 
 	void drawText(std::string text,
+		std::string font,
+		Position pos) {
+		drawText(text, font, pos, horizontalAlign::Middle, verticalAlign::Middle);
+	}
+
+	void drawText(std::string text,
+		std::string font,
+		Position pos,
+		verticalAlign vAlign,
+		horizontalAlign hAlign = horizontalAlign::Middle) {
+		drawText(text, font, pos, hAlign, vAlign);
+	}
+
+	void drawText(std::string text,
 					  std::string font,
 					  Position pos,
-					  horizontalAlign hAlign = horizontalAlign::Middle,
+					  horizontalAlign hAlign,
 					  verticalAlign vAlign = verticalAlign::Middle) {
 		auto it = fonts.find(font);
 		if (it == fonts.end())
@@ -37,6 +51,15 @@ public:
 		if (it == sprites.end())
 			throw std::logic_error("No texture with name " + texture + " was loaded.");
 		it->second.draw(&renderer, pos, alpha);
+	}
+
+	void drawSprite(std::string texture,
+						 SDL_Rect& bBox,
+						 Uint8 alpha = 255) {
+		auto it = sprites.find(texture);
+		if (it == sprites.end())
+			throw std::logic_error("No texture with name " + texture + " was loaded.");
+		it->second.draw(&renderer, bBox, alpha);
 	}
 
 	void addFont(std::string name, std::string path, int size, SDL_Color color = { 255, 255, 255, 255 }) {

@@ -81,7 +81,8 @@ void Tetromino::draw(RenderController& renderer) {
 void Tetromino::nextType() {
 	type = next;
 	blocks = toArray(type);
-	next = (static_cast<tetroType>(rand() % 7 + 1));
+	next = static_cast<tetroType>(Random::get(1, 7));
+	//next = (static_cast<tetroType>(rand() % 7 + 1));
 	nextBlocks = toArray(next);
 }
 
